@@ -1,0 +1,290 @@
+# Mood and weather by time (SCENE1.md, "Смена настроения"). A layer over the v2 timeline:
+#   import s3_mood as M; M.install()   -> T.apply_time / T.render / s3_sequence.build() include the weather
+#   M.strip()                           -> six stills from one viewpoint (mood_strip)
+# Everything is a curve: sun, sky light, atmosphere, fog, saturation, exposure, wind on the water, overcast sheet,
+# veil ahead of the wave, roll cloud over the crest, rain, water dust, drops on glass, flashes, lamps, rainbow.
+import unreal, math, importlib
+import s1u, l_keys, q_shots, s3_timeline as T, s3_v2 as V
+from s3_timeline import ease, sstep, lerp, n1
+MEL = unreal.MaterialEditingLibrary
+EAL = unreal.EditorAssetLibrary
+ML = unreal.MathLibrary
+_S = {}
+_orig = {}
+
+SUN_I = [(215, 10.0), (310, 6.5), (370, 3.2), (430, 1.6), (460, 1.2), (500, 5.5), (545, 8.0)]
+SUN_C = [(215, 1.0, 1.0, 1.0), (310, 0.93, 0.96, 1.0), (370, 0.80, 0.88, 1.0), (460, 0.75, 0.85, 1.0), (500, 0.98, 0.99, 1.0), (545, 1.0, 0.98, 0.95)]
+SKY_I = [(215, 1.0), (310, 0.85), (370, 0.60), (430, 0.42), (460, 0.32), (500, 0.90), (545, 1.0)]
+SKY_C = [(215, 1.0, 1.0, 1.0), (310, 0.90, 0.94, 1.0), (370, 0.74, 0.82, 0.96), (460, 0.68, 0.78, 0.95), (500, 0.92, 0.97, 1.0), (545, 0.97, 0.99, 1.0)]
+ATM = [(215, 1.0, 1.0, 1.0), (310, 0.82, 0.86, 0.92), (370, 0.58, 0.63, 0.72), (460, 0.42, 0.47, 0.56), (500, 0.90, 0.95, 1.0), (545, 1.0, 1.0, 1.0)]
+FOG_D = [(215, 0.0016), (310, 0.0035), (370, 0.0055), (430, 0.0075), (460, 0.0085), (500, 0.0040), (545, 0.0025)]
+FOG_C = [(215, 0.30, 0.42, 0.62), (310, 0.33, 0.40, 0.52), (370, 0.30, 0.34, 0.40), (460, 0.24, 0.27, 0.32), (500, 0.42, 0.50, 0.62), (545, 0.36, 0.46, 0.62)]
+SAT = [(215, 1.0), (310, 0.86), (370, 0.66), (430, 0.52), (460, 0.46), (500, 0.84), (545, 0.94)]
+GAIN = [(215, 1.0, 1.0, 1.0), (370, 0.94, 0.98, 1.05), (460, 0.90, 0.96, 1.06), (500, 1.0, 1.0, 1.0), (545, 1.0, 1.0, 1.0)]
+EXPO_D = [(215, 0.0), (310, -0.15), (370, -0.45), (430, -0.7), (460, -0.8), (500, -0.1), (545, 0.0)]
+WIND = [(215, 1.0), (240, 1.8), (310, 3.2), (370, 5.5), (430, 7.0), (460, 7.0), (500, 4.0), (545, 3.0)]
+OVC = [(215, 0.0), (310, 0.40), (340, 0.62), (370, 0.80), (430, 1.0), (460, 1.0), (500, 0.30), (545, 0.12)]
+OVC_C = [(215, 0.34, 0.36, 0.39), (370, 0.20, 0.22, 0.25), (460, 0.11, 0.12, 0.14), (500, 0.42, 0.45, 0.50), (545, 0.50, 0.53, 0.58)]
+VEIL = [(205, 0.0), (245, 0.35), (310, 0.50), (345, 0.42), (430, 0.5), (460, 0.5)]
+# foam, mist and spray ribbons are unlit: they must dim together with the light
+RIBBON = [(215, 1.0), (310, 0.80), (370, 0.45), (430, 0.26), (460, 0.20), (500, 0.90), (545, 1.0)]
+ROLL = [(285, 0.0), (320, 0.8), (345, 1.1), (370, 1.2), (460, 1.2)]
+ROLL_HAZE = [(285, 0.60), (340, 0.45), (400, 0.25), (440, 0.12), (460, 0.05)]
+RAIN = [(328, 0.0), (345, 0.12), (370, 0.5), (400, 0.9), (430, 1.0), (460, 1.0), (500.5, 0.5), (512, 0.12), (525, 0.0)]
+DUST = [(300, 0.0), (335, 0.5), (370, 0.85), (430, 0.6), (460, 0.6), (500.5, 0.25), (520, 0.0)]
+BOW = [(503, 0.0), (512, 1.0), (532, 1.0), (545, 0.4)]
+LAMPS = [(350, 0.0), (372, 1.0), (460, 1.0)]
+FLASH_T = [411.0, 433.5, 449.0]          # all three are seen from the cockpit (a flash at 392 fell into the airlock and was dropped)
+STRIP = [150.0, 270.0, 340.0, 400.0, 440.0, 520.0]
+LIFT = 0.9                              # m: how much higher the hull rides for the first seconds afloat (see install)
+
+
+WET = [(500.3, 0.8), (504.0, 0.5), (515.0, 0.3), (548.0, 0.2)]      # the canopy after surfacing: rare drops running down
+BUBBLES = [(460.0, 1.8), (464.0, 1.2), (472.0, 0.8), (498.0, 0.6)]   # a burst after the blow, then fewer
+FLASH_POS = {411.0: (-0.25, 0.12), 433.5: (0.30, 0.20), 449.0: (0.05, 0.32)}   # where on the wall: sideways, up
+
+
+def glass_state(t, rain, uw):
+    """-> (amount, speed, flow x, flow y) of the drops on the glass in front of the camera (screen: x right, y down)"""
+    if uw: return (0.0, 0.0, 0.0, 1.0)
+    if t >= 500.0: return (max(rain * 0.6, ease(WET, t)[0]), 0.45, 0.03, 1.0)                  # afloat: rare, straight down
+    if t >= 398.0: return (rain, 1.0, 0.22, -1.0)                                               # the storm drives them up the canopy
+    if t >= 389.6: return (0.45 * rain * max(0.0, 1.0 - (t - 389.6) / 1.5), 0.6, 0.10, 1.0)     # inside the ship the visor dries
+    if t >= 104.0: return (0.45 * rain, 0.6, 0.10, 1.0)                                         # the helmet: down the visor
+    return (rain, 1.0, 0.0, -1.0)
+
+
+def flash(t):
+    """-> (level, sideways, up): three frames at full, then about half a second of dying away with one flutter"""
+    for tf in FLASH_T:
+        u = t - tf
+        if -0.001 <= u < 0.125: return (1.0,) + FLASH_POS[tf]
+        if 0.125 <= u < 0.85:
+            return (math.exp(-(u - 0.125) / 0.15) * (1.0 + 0.6 * math.exp(-((u - 0.33) / 0.035) ** 2)),) + FLASH_POS[tf]
+    return (0.0, 0.0, 0.2)
+
+
+def _fx(name, v):
+    """an animated parameter of the post-process materials: lives in the collection MPC_OtlivFX (a sequence can key it)"""
+    v = list(v) + [0.0] * (4 - len(v))
+    unreal.MaterialLibrary.set_vector_parameter_value(s1u.world(), _S['mpcfx'], name, unreal.LinearColor(v[0], v[1], v[2], v[3]))
+
+
+def _set(key, val, fn):
+    if _S.get(key) != val:
+        _S[key] = val; fn(val)
+
+
+def _mi_vec(mi, name, v):
+    MEL.set_material_instance_vector_parameter_value(mi, name, unreal.LinearColor(v[0], v[1], v[2], v[3] if len(v) > 3 else 0.0))
+    MEL.update_material_instance(mi)
+
+
+def _mi_sc(mi, name, v):
+    MEL.set_material_instance_scalar_parameter_value(mi, name, float(v)); MEL.update_material_instance(mi)
+
+
+def _r2(*a): return tuple(round(x, 2) for x in a)
+def _r3(*a): return tuple(round(x, 3) for x in a)
+
+
+def apply_time3(t):
+    _orig['apply_time'](t)
+    A = T.A
+    uw = bool(T._LAST.get('uw'))
+    # Surfacing. The timeline leaves the water at T_UP - 0.4 in one frame, and the picture jumped twice (v3: 8:19.6 and
+    # 8:20.4). Hold the underwater picture until the ship is really out and let the waterline run down the glass during
+    # the last half second, with the daylight coming back as the water goes.
+    surf = T.T_UP - 0.4 <= t < T.T_UP + 0.42
+    if surf or _S.get('surf'):
+        ppu = A('PPV_Underwater'); stu = ppu.get_editor_property('settings')
+    if surf:
+        if not _S.get('surf'):
+            _S['surf'] = True; q_shots.underwater(True)
+        ks = 1.0 - sstep((t - (T.T_UP - 0.1)) / 0.5)
+        # The weight of the volume stays 1: for a material INSTANCE a smaller weight does not fade the picture, it pulls the
+        # parameters back to the defaults of the parent (Flood = 1: the water came back up the glass). Only Flood removes the water.
+        _fx('Flood', (round(ks, 3), 0.0, 0.0, 0.0)); _S['flood'] = None
+        ppu.set_editor_property('blend_weight', 1.0)
+        # the volume carries its own exposure (-1.5): lead it to the exposure of the scene, or the picture jumps when it goes
+        exs = ease(T.EXPO, t)[0] + ease(EXPO_D, t)[0]
+        stu.set_editor_property('auto_exposure_bias', -1.5 + (exs + 1.5) * (1.0 - ks)); ppu.set_editor_property('settings', stu)
+        A('Sun').light_component.set_intensity(ease(SUN_I, t)[0] * (1.0 - ks))
+        sls = A('SkyLight').get_component_by_class(unreal.SkyLightComponent)
+        sls.set_editor_property('real_time_capture', True); sls.set_intensity(ease(SKY_I, t)[0] * (1.0 - ks))
+        uw = True
+    elif _S.get('surf'):
+        _S['surf'] = False; q_shots.underwater(False)
+        _S['flood'] = None
+        stu.set_editor_property('auto_exposure_bias', -1.5); ppu.set_editor_property('settings', stu)
+        for key in ('sun', 'sunc', 'sky', 'skyc'): _S.pop(key, None)
+    if not surf:
+        if 458.8 <= t < T.T_UP - 0.4:
+            dk = 0.0
+            if t >= 460.0: dk = 1.0 if t < 460.5 else 1.0 - sstep((t - 460.5) / 0.7)
+            fl2 = (round(sstep((t - 459.0) / 1.0), 3), round(dk, 3))
+        else:
+            fl2 = (1.0, 0.0)
+        _set('flood', fl2, lambda v: _fx('Flood', (v[0], v[1], 0.0, 0.0)))
+    if _S.get('uw_prev') and not uw:              # after the dive the lights were reset by the timeline: apply ours again
+        for k in ('sun', 'sunc', 'sky', 'skyc'): _S.pop(k, None)
+    _S['uw_prev'] = uw
+    # sun and sky
+    if not uw:
+        sun = A('Sun').light_component
+        _set('sun', round(ease(SUN_I, t)[0], 2), lambda v: sun.set_intensity(v))
+        _set('sunc', _r2(*ease(SUN_C, t)), lambda v: sun.set_light_color(unreal.LinearColor(v[0], v[1], v[2])))
+        sl = A('SkyLight').get_component_by_class(unreal.SkyLightComponent)
+        _set('sky', round(ease(SKY_I, t)[0], 2), lambda v: sl.set_intensity(v))
+        _set('skyc', _r2(*ease(SKY_C, t)), lambda v: sl.set_light_color(unreal.LinearColor(v[0], v[1], v[2])))
+    atm = A('SkyAtmosphere').get_component_by_class(unreal.SkyAtmosphereComponent)
+    _set('atm', _r2(*ease(ATM, t)), lambda v: atm.set_sky_and_aerial_perspective_luminance_factor(unreal.LinearColor(v[0], v[1], v[2])))
+    fog = A('HeightFog').get_component_by_class(unreal.ExponentialHeightFogComponent)
+    _set('fogd', round(ease(FOG_D, t)[0], 4), lambda v: fog.set_fog_density(v))
+    _set('fogc', _r2(*ease(FOG_C, t)), lambda v: fog.set_fog_inscattering_color(unreal.LinearColor(v[0], v[1], v[2])))
+    # grading and exposure (one settings struct)
+    sat = round(ease(SAT, t)[0], 2); gn = _r2(*ease(GAIN, t)); ex = round(ease(T.EXPO, t)[0] + ease(EXPO_D, t)[0], 2)
+    # the timeline below writes its own exposure (without our storm correction) every time ITS value changes; if we kept
+    # ours only until OUR value changes, the picture jumped by a third of a stop for a few frames (v3, 6:30-7:18).
+    # So what the timeline last wrote is part of the key: it writes -> we write again in the same frame.
+    key = (sat, gn, ex, T._LAST.get('ex'))
+    if _S.get('grade') != key:
+        _S['grade'] = key
+        ppv = A('PPV_Global'); st = ppv.get_editor_property('settings')
+        st.set_editor_property('override_auto_exposure_bias', True); st.set_editor_property('auto_exposure_bias', ex)
+        st.set_editor_property('override_color_saturation', True); st.set_editor_property('color_saturation', unreal.Vector4(sat, sat, sat, 1.0))
+        st.set_editor_property('override_color_gain', True); st.set_editor_property('color_gain', unreal.Vector4(gn[0], gn[1], gn[2], 1.0))
+        ppv.set_editor_property('settings', st)
+    # cloud sheet, veil, roll cloud
+    fl, fy, fz = flash(t) if not uw else (0.0, 0.0, 0.2)
+    _set('ovc', round(ease(OVC, t)[0], 2), lambda v: _mi_sc(_S['mi_ovc'], 'Density', v * 1.3))
+    _set('ovcc', _r2(*ease(OVC_C, t)), lambda v: _mi_vec(_S['mi_ovc'], 'Color', v))
+    _set('veil', round(ease(VEIL, t)[0], 2), lambda v: _mi_sc(_S['mi_veil'], 'Density', v))
+    def _rib(v):
+        for mi in _S['mi_rib']: _mi_sc(mi, 'Gain', v)
+    _set('rib', round(ease(RIBBON, t)[0], 2), _rib)
+    rk = ease(ROLL, t)[0]
+    _set('roll', round(rk, 2), lambda v: _mi_sc(_S['mi_roll'], 'Density', v * 1.5))
+    _set('rollg', round(ease(RIBBON, t)[0] * (1.0 + 5.0 * fl), 3), lambda v: _mi_sc(_S['mi_roll'], 'Gain', v))
+    _set('rollh', round(ease(ROLL_HAZE, t)[0], 2), lambda v: _mi_vec(_S['mi_roll'], 'Haze', (0.36, 0.40, 0.46, v)))
+    # rain, water dust, drops on glass, rainbow, flash
+    rain = ease(RAIN, t)[0]; dust = ease(DUST, t)[0]
+    if uw: rain = dust = 0.0
+    gs = glass_state(t, rain, uw)
+    bow = ease(BOW, t)[0]
+    wind = ease(WIND, t)[0]
+    w = _r3(rain, 0.20 + 0.05 * wind, dust, gs[0], bow, fl, gs[1], gs[2], gs[3], fy, fz)
+    if _S.get('wx') != w:
+        _S['wx'] = w
+        _fx('Rain', (w[0], w[1], 1.0, 0.0)); _fx('Dust', (w[2], 2.2, 0.0, 0.0)); _fx('Glass', (w[3], w[6], w[7], w[8]))
+        _fx('Rainbow', (w[4], 0.0, 0.0, 0.0)); _fx('Flash', (w[5] * 0.7, w[9], w[10], 0.0))
+    flc = A('FlashLight').get_component_by_class(unreal.DirectionalLightComponent)
+    _set('flash_l', round(6.0 * fl, 2), lambda v: (flc.set_intensity(v), flc.set_visibility(v > 0.0)))
+    if uw: _set('bub', round(ease(BUBBLES, t)[0], 2), lambda v: _fx('Amounts', (0.10, 0.60 * v, 0.0, 0.22)))
+    if _S.get('screens'): _S['screens'].apply(t)                      # the screens of the cockpit by the state of the story
+    # the cutter: a small hot spot instead of a floodlight, sparks as streaks along their flight, puffs of steam
+    cutting = 250.0 < t < 272.0; steaming = 250.3 < t < 273.6
+    if cutting or steaming or _S.get('cut3'):
+        PN = T.PN; PANEL = T.PANEL
+        c0 = ((PANEL[0] + PN[0] * 0.05) * 100.0, (PANEL[1] + PN[1] * 0.05) * 100.0, (PANEL[2] + 0.03) * 100.0)
+        cl = A('CutterLight')
+        cl.set_actor_location(unreal.Vector(c0[0] + PN[0] * 7.0, c0[1] + PN[1] * 7.0, c0[2] + PN[2] * 7.0), False, False)
+        cl.point_light_component.set_intensity(0.16 * (0.35 + 0.65 * abs(T.n1(t * 23.0, 31))) if cutting else 0.0)
+        for i in range(8):
+            if not cutting: break
+            u = t * 2.6 + i * 0.861; ph = u % 1.0; sd = i * 3.1 + math.floor(u) * 1.7
+            dx, dy, dz = PN[0] + 0.7 * T.n1(sd, 51), PN[1] + 0.7 * T.n1(sd, 52), 0.5 + 0.6 * T.n1(sd, 53)
+            vx, vy, vz = dx * 55.0, dy * 55.0, dz * 40.0 - 180.0 * ph
+            sa = A('Spark%d' % i); k = 1.0 - 0.6 * ph
+            sa.set_actor_rotation(unreal.Rotator(pitch=math.degrees(math.atan2(vz, math.hypot(vx, vy))), yaw=math.degrees(math.atan2(vy, vx)), roll=0.0), False)
+            sa.set_actor_scale3d(unreal.Vector(0.13 * k, 0.014 * k, 0.014 * k))
+        cam = A('CAM_Film').get_actor_location()
+        for i in range(3):
+            pa = A('Puff%d' % i); u = (t * 0.55 + i / 3.0) % 1.0
+            born = t - u / 0.55                                              # when this puff left the cut
+            on = steaming and 250.3 < born < 272.0
+            if on:
+                loc = unreal.Vector(c0[0] + PN[0] * (8.0 + 22.0 * u) + 6.0 * math.sin(i * 2.1 + u * 3.0), c0[1] + PN[1] * (8.0 + 22.0 * u) + 6.0 * math.cos(i * 1.7 + u * 2.0),
+                                    c0[2] + 6.0 + 40.0 * u)
+                pa.set_actor_location(loc, False, False)
+                pa.set_actor_rotation(ML.compose_rotators(unreal.Rotator(pitch=-90.0, yaw=0.0, roll=0.0), ML.find_look_at_rotation(loc, cam)), False)
+                sc = 0.10 + 0.34 * u; pa.set_actor_scale3d(unreal.Vector(sc, sc, sc))
+                _mi_sc(_S['mi_puff'][i], 'Fade', round(0.85 * min(1.0, u / 0.15) * (1.0 - u) ** 1.5, 3))
+            if _S.get('puff%d' % i) != on:
+                _S['puff%d' % i] = on; V._show(pa, on)
+        _S['cut3'] = cutting or steaming
+    _set('wxw', 1.0 if (rain + dust + bow + fl) > 0.001 else 0.0, lambda v: A('PPV_Weather').set_editor_property('blend_weight', v))
+    # warm light: landing lights of the ship, lamp of the drone
+    lk = ease(LAMPS, t)[0] if not uw else 0.0
+    sx, sy, sz, sp, syaw, sr = T.ship_pose(t)
+    srot = unreal.Rotator(pitch=sp, yaw=syaw, roll=sr)
+    for lb, y in (('ShipLight_L', -0.62), ('ShipLight_R', 0.62)):
+        a = A(lb)
+        if lk > 0.0:
+            a.set_actor_location(V._to_world((5.10, y, 1.50), t), False, False)
+            a.set_actor_rotation(ML.compose_rotators(unreal.Rotator(pitch=-9.0, yaw=0.0, roll=0.0), srot), False)
+        _set('lamp_' + lb, round(70.0 * lk, 1), lambda v, a=a: (a.get_component_by_class(unreal.SpotLightComponent).set_intensity(v),
+                                                              a.get_component_by_class(unreal.SpotLightComponent).set_visibility(v > 0.0)))
+    d = T.drone_world(t)
+    dl = A('DroneLamp')
+    dk = lk if d is not None else 0.0
+    if dk > 0.0: dl.set_actor_location(unreal.Vector(d[0] * 100.0, d[1] * 100.0, d[2] * 100.0 + 6.0), False, False)
+    _set('dlamp', round(0.6 * dk, 2), lambda v: (dl.point_light_component.set_intensity(v), dl.point_light_component.set_visibility(v > 0.0)))
+    # fixed viewpoint for the mood strip
+    fx = _S.get('cam_fix')
+    if fx is not None:
+        x, y, z, yaw, pitch, focal = fx(t)
+        cam = A('CAM_Film')
+        cam.set_actor_location(unreal.Vector(x * 100.0, y * 100.0, z * 100.0), False, False)
+        cam.set_actor_rotation(unreal.Rotator(pitch=pitch, yaw=yaw, roll=0.0), False)
+        cam.get_cine_camera_component().set_editor_property('current_focal_length', focal); T._LAST['focal'] = None
+    return t
+
+
+def install():
+    V.install()
+    _orig.clear(); _S.clear()
+    _orig['apply_time'] = T.apply_time
+    T.RIPPLE = WIND                       # wind on the water: the timeline already feeds this curve to the water material
+    # Afloat on the back of the wave the hull sat 0.9 m deep and stayed level, while the surface climbs toward the crest: for
+    # twelve seconds after surfacing the water stood up to 0.7 m ABOVE the cockpit floor (seen between the seats). Ride higher
+    # there: the lift comes in while the water still runs off the glass and goes away when the slope flattens.
+    _orig['ship_pose'] = T.ship_pose
+    def pose3(t):
+        x, y, z, p, yw, r = _orig['ship_pose'](t)
+        if t > T.T_UP - 0.6: z += LIFT * sstep((t - (T.T_UP - 0.6)) / 0.8) * (1.0 - sstep((t - 512.0) / 6.0))
+        return (x, y, z, p, yw, r)
+    T.ship_pose = pose3
+    T.apply_time = apply_time3
+    M = '/Game/Scene1/Materials/'
+    _S['mi_wx'] = EAL.load_asset(M + 'MI_PP_Weather'); _S['mi_ovc'] = EAL.load_asset(M + 'MI_Overcast')
+    _S['mi_veil'] = EAL.load_asset(M + 'MI_WaveVeil'); _S['mi_roll'] = EAL.load_asset(M + 'MI_WaveRoll')
+    _S['mpcfx'] = EAL.load_asset('/Game/Scene1/MPC_OtlivFX'); V._S['uw_mi'] = None      # the v2 layer no longer writes Flood into the instance
+    _S['mi_uw'] = EAL.load_asset(M + 'MI_PP_Underwater'); _S['mi_puff'] = [EAL.load_asset(M + 'MI_Puff%d' % i) for i in range(3)]
+    try:
+        import s5_screens
+        importlib.reload(s5_screens)
+        _S['screens'] = s5_screens if s5_screens.load() else None       # nothing until the models chat delivers the pictures
+    except Exception as e:
+        _S['screens'] = None; print('screens:', e)
+    _S['mi_rib'] = [EAL.load_asset(M + n) for n in ('MI_Spray', 'MI_Mist', 'MI_MistB', 'MI_MistC', 'MI_WaveBoilA', 'MI_WaveBoilB', 'MI_WaveVeil')]
+    T.A('WaveRoll').set_actor_scale3d(unreal.Vector(1.0, 1.0, 1.0))
+    return T.init()
+
+
+def _strip_cam(t):
+    """one viewpoint for all six stills: 1.7 m above the ground (or above the sea after the wave), 16 m behind the ship, looking at the wave"""
+    sx, sy, sz, sp, syaw, sr = T.ship_pose(t)
+    if t < T.T_LIFT:
+        return (-14.0, 9.0, 1.70, -13.0, 2.5, 16.0)
+    x = sx - 14.0
+    return (x, 9.0, T.surf(x - T.wave_x_m(t)) + 1.7, -13.0, 2.5, 16.0)
+
+
+def strip(outdir=r'C:\UnrealScenes\Renders\scene1\mood_strip', w=960, h=540, times=None):
+    _S['cam_fix'] = _strip_cam
+    return T.render(0, 0, outdir=outdir, w=w, h=h, times=times or STRIP, prefix='s_', settle=45)
+
+
+def strip_done():
+    _S.pop('cam_fix', None)

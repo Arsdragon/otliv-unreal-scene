@@ -1,0 +1,169 @@
+{
+ "id": "cockpit_screens",
+ "title": "Экраны панели «Чайки» по состояниям сюжета (сцена 1 «Отлив»)",
+ "size": [
+  1280,
+  800
+ ],
+ "aspect": "16:10",
+ "colorspace": "sRGB, без альфы; в материале — эмиссия слота (как у нынешних экранов)",
+ "slots": {
+  "screen_1": "T_Screen_1.png — СИСТЕМЫ",
+  "screen_2": "T_Screen_2.png — НАВИГАЦИЯ",
+  "screen_3": "T_Screen_3.png — ПИЛОТАЖ",
+  "screen_4": "T_Screen_4.png — ДВИГАТЕЛИ",
+  "screen_5": "T_Screen_5.png — СВЯЗЬ"
+ },
+ "states": [
+  {
+   "folder": "orbit",
+   "state": "orbit",
+   "time": "0:00–0:50",
+   "from_s": 0,
+   "to_s": 50,
+   "note": "орбита: высота, скорость, пеленг на сигнал зонда",
+   "files": [
+    "orbit/T_Screen_1.png",
+    "orbit/T_Screen_2.png",
+    "orbit/T_Screen_3.png",
+    "orbit/T_Screen_4.png",
+    "orbit/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "entry",
+   "state": "entry",
+   "time": "0:50–1:25",
+   "from_s": 50,
+   "to_s": 85,
+   "note": "вход в атмосферу: перегрузка, нагрев обшивки, высота быстро падает",
+   "files": [
+    "entry/T_Screen_1.png",
+    "entry/T_Screen_2.png",
+    "entry/T_Screen_3.png",
+    "entry/T_Screen_4.png",
+    "entry/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "approach",
+   "state": "approach",
+   "time": "1:25–1:40",
+   "from_s": 85,
+   "to_s": 100,
+   "note": "заход: высота в метрах, глубина 0,40 м, шасси выпущено",
+   "files": [
+    "approach/T_Screen_1.png",
+    "approach/T_Screen_2.png",
+    "approach/T_Screen_3.png",
+    "approach/T_Screen_4.png",
+    "approach/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "landed",
+   "state": "landed",
+   "time": "1:40–6:40",
+   "from_s": 100,
+   "to_s": 400,
+   "note": "на грунте: копия нынешних T_Screen_1…4 кабины; экран 5 пересобран с исправленным знаком «минус»",
+   "files": [
+    "landed/T_Screen_1.png",
+    "landed/T_Screen_2.png",
+    "landed/T_Screen_3.png",
+    "landed/T_Screen_4.png",
+    "landed/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "alert",
+   "state": "alert",
+   "time": "6:40–7:15",
+   "from_s": 400,
+   "to_s": 435,
+   "note": "шторм: уровень воды падает, фронт волны, продувка воздухозаборников 40 с",
+   "files": [
+    "alert/T_Screen_1.png",
+    "alert/T_Screen_2.png",
+    "alert/T_Screen_3.png",
+    "alert/T_Screen_4.png",
+    "alert/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "contact_25",
+   "state": "contact",
+   "time": "7:15–7:25",
+   "from_s": 435,
+   "to_s": 445,
+   "note": "до контакта 25 с",
+   "files": [
+    "contact_25/T_Screen_1.png",
+    "contact_25/T_Screen_2.png",
+    "contact_25/T_Screen_3.png",
+    "contact_25/T_Screen_4.png",
+    "contact_25/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "contact_15",
+   "state": "contact",
+   "time": "7:25–7:35",
+   "from_s": 445,
+   "to_s": 455,
+   "note": "до контакта 15 с",
+   "files": [
+    "contact_15/T_Screen_1.png",
+    "contact_15/T_Screen_2.png",
+    "contact_15/T_Screen_3.png",
+    "contact_15/T_Screen_4.png",
+    "contact_15/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "contact_05",
+   "state": "contact",
+   "time": "7:35–7:40",
+   "from_s": 455,
+   "to_s": 460,
+   "note": "до контакта 5 с",
+   "files": [
+    "contact_05/T_Screen_1.png",
+    "contact_05/T_Screen_2.png",
+    "contact_05/T_Screen_3.png",
+    "contact_05/T_Screen_4.png",
+    "contact_05/T_Screen_5.png"
+   ]
+  },
+  {
+   "folder": "failure",
+   "state": "failure",
+   "time": "8:20–конец",
+   "from_s": 500,
+   "to_s": null,
+   "note": "после волны: двигатели — отказ, корпус цел, на плаву; экран 5 мигает помехой",
+   "files": [
+    "failure/T_Screen_1.png",
+    "failure/T_Screen_2.png",
+    "failure/T_Screen_3.png",
+    "failure/T_Screen_4.png",
+    "failure/T_Screen_5.png"
+   ],
+   "flicker": {
+    "slot": "screen_5",
+    "frames": [
+     "failure/T_Screen_5.png",
+     "failure/T_Screen_5_b.png"
+    ],
+    "hint": "основной кадр — T_Screen_5.png; T_Screen_5_b.png показывать короткими вспышками 0,08–0,2 с через неровные промежутки 0,5–3 с"
+   }
+  }
+ ],
+ "notes": [
+  "screen_6 (ШЛЮЗ) в наборы не входит — остаётся прежним",
+  "интервал 7:40–8:20 (удар, под водой) в задании не описан: файлов для него нет",
+  "contact: три набора подряд — 25, 15 и 5 секунд до удара в 7:40; числа на всех пяти экранах согласованы (дальность до фронта 3,75 / 2,25 / 0,75 км, продувка 25 / 15 / 5 с)",
+  "часы в шапке экранов: 12:38:20 + время сцены; в каждом состоянии показано одно застывшее значение",
+  "красный цвет есть только в contact и failure; янтарный — предупреждения и метка маяка зонда (как на нынешних экранах)"
+ ]
+}

@@ -1,0 +1,429 @@
+{
+ "id": "svetlyak",
+ "title": "Дрон-разведчик «Светляк»",
+ "units": "метры",
+ "axes": "Z вверх, нос по −Y; +X — левый борт (оси Blender). В glb оси пересчитаны экспортёром в Y вверх",
+ "origin": "центр корпуса в плоскости импеллеров; низ дрона — 0,10 м ниже начала координат",
+ "export_pose": "манипулятор сложен под днищем, голова смотрит вперёд (−Y), роторы в нуле",
+ "bbox": {
+  "min": [
+   -0.296,
+   -0.237,
+   -0.1
+  ],
+  "max": [
+   0.296,
+   0.205,
+   0.132
+  ]
+ },
+ "triangles": 28656,
+ "files": {
+  "glb": "svetlyak.glb",
+  "fbx": "svetlyak.fbx",
+  "textures": [
+   "T_Svetlyak_BaseColor.png",
+   "T_Svetlyak_Normal.png",
+   "T_Svetlyak_ORM.png"
+  ]
+ },
+ "texture_notes": "2048×2048. BaseColor — sRGB. Normal — OpenGL (+Y): при ручном импорте PNG в Unreal включить Flip Green Channel. ORM — линейная: R — затенение (запечено), G — шероховатость, B — металл.",
+ "material_slots": [
+  {
+   "name": "svetlyak",
+   "textures": "T_Svetlyak_*",
+   "note": "вся модель"
+  },
+  {
+   "name": "glass",
+   "textures": null,
+   "note": "{\"base\": [0.035, 0.02, 0.06], \"alpha\": 0.32, \"rough\": 0.015}"
+  },
+  {
+   "name": "emissive",
+   "textures": null,
+   "note": "{\"base\": [0.75, 0.95, 0.35], \"emis\": [0.72, 1.0, 0.22], \"strength\": 6.0}"
+  },
+  {
+   "name": "scanner",
+   "textures": null,
+   "note": "{\"base\": [0.03, 0.05, 0.06], \"emis\": [0.55, 0.85, 1.0], \"strength\": 0.4, \"rough\": 0.08}"
+  }
+ ],
+ "notes": [
+  "Рабочая поза манипулятора (кадр B «с резаком»): плечо −117°, локоть +134,5°, кисть +19,5°, пальцы ±15°.",
+  "Фонарь (слот emissive) — тёплый жёлто-зелёный; яркость и мигание задаёт сцена.",
+  "Слот scanner — окно излучателя сканера; луч — эффект сцены из метки fx_scanner (ось +Y метки — направление луча).",
+  "В ложементе кабины дрон ставится в метку drone_cradle модели chaika_cockpit."
+ ],
+ "parts": [
+  {
+   "name": "sv_body",
+   "parent": "svetlyak",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 16352,
+   "materials": [
+    "svetlyak",
+    "emissive"
+   ]
+  },
+  {
+   "name": "sv_head",
+   "parent": "svetlyak",
+   "pivot": [
+    0.0,
+    -0.163,
+    -0.05
+   ],
+   "triangles": 5348,
+   "materials": [
+    "svetlyak",
+    "glass",
+    "scanner"
+   ],
+   "moving": {
+    "axis": "Z (поворот), X (наклон)",
+    "range_deg": {
+     "yaw": [
+      -170,
+      170
+     ],
+     "pitch": [
+      -60,
+      30
+     ]
+    },
+    "note": "сенсорная голова: объектив смотрит вдоль −Y; излучатель сканера под объективом"
+   }
+  },
+  {
+   "name": "sv_rotor_FL",
+   "parent": "svetlyak",
+   "pivot": [
+    0.215,
+    -0.095,
+    0.004
+   ],
+   "triangles": 1028,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "note": "ротор, вращение непрерывное; FL и RR — против часовой (вид сверху), FR и RL — по часовой"
+   }
+  },
+  {
+   "name": "sv_rotor_FR",
+   "parent": "svetlyak",
+   "pivot": [
+    -0.215,
+    -0.095,
+    0.004
+   ],
+   "triangles": 1028,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "note": "ротор, по часовой (вид сверху)"
+   }
+  },
+  {
+   "name": "sv_rotor_RL",
+   "parent": "svetlyak",
+   "pivot": [
+    0.215,
+    0.115,
+    0.004
+   ],
+   "triangles": 1028,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "note": "ротор, по часовой (вид сверху)"
+   }
+  },
+  {
+   "name": "sv_rotor_RR",
+   "parent": "svetlyak",
+   "pivot": [
+    -0.215,
+    0.115,
+    0.004
+   ],
+   "triangles": 1028,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "note": "ротор, против часовой (вид сверху)"
+   }
+  },
+  {
+   "name": "sv_arm_base",
+   "parent": "svetlyak",
+   "pivot": [
+    0.0,
+    -0.07,
+    -0.053
+   ],
+   "triangles": 436,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "range_deg": [
+     -90,
+     90
+    ],
+    "note": "поворот основания манипулятора"
+   }
+  },
+  {
+   "name": "sv_arm_upper",
+   "parent": "sv_arm_base",
+   "pivot": [
+    0.0,
+    -0.07,
+    -0.068
+   ],
+   "triangles": 684,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     -125,
+     0
+    ],
+    "work": -117,
+    "note": "плечо: 0 — сложено вдоль днища к корме, −117 — вперёд-вниз"
+   }
+  },
+  {
+   "name": "sv_arm_fore",
+   "parent": "sv_arm_upper",
+   "pivot": [
+    0.0,
+    0.075,
+    -0.078
+   ],
+   "triangles": 496,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     0,
+     150
+    ],
+    "work": 134.5,
+    "note": "локоть: 0 — сложено, 134,5 — предплечье вперёд"
+   }
+  },
+  {
+   "name": "sv_arm_wrist",
+   "parent": "sv_arm_fore",
+   "pivot": [
+    0.0,
+    -0.045,
+    -0.088
+   ],
+   "triangles": 804,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     -60,
+     60
+    ],
+    "work": 19.5,
+    "note": "кисть: захват и резак (резак слева от захвата)"
+   }
+  },
+  {
+   "name": "sv_finger_L",
+   "parent": "sv_arm_wrist",
+   "pivot": [
+    0.0075,
+    -0.0625,
+    -0.088
+   ],
+   "triangles": 212,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "range_deg": [
+     0,
+     25
+    ],
+    "note": "палец захвата: 0 — сжат, + — раскрыт"
+   }
+  },
+  {
+   "name": "sv_finger_R",
+   "parent": "sv_arm_wrist",
+   "pivot": [
+    -0.0075,
+    -0.0625,
+    -0.088
+   ],
+   "triangles": 212,
+   "materials": [
+    "svetlyak"
+   ],
+   "moving": {
+    "axis": "Z",
+    "range_deg": [
+     -25,
+     0
+    ],
+    "note": "палец захвата: 0 — сжат, − — раскрыт"
+   }
+  }
+ ],
+ "markers": [
+  {
+   "name": "fx_scanner",
+   "parent": "sv_head",
+   "pivot": [
+    0.0,
+    -0.2165,
+    -0.076
+   ],
+   "direction_+Y": [
+    0.0,
+    -0.97,
+    -0.243
+   ]
+  },
+  {
+   "name": "cam_lens",
+   "parent": "sv_head",
+   "pivot": [
+    0.0,
+    -0.237,
+    -0.05
+   ],
+   "direction_+Y": [
+    -0.0,
+    -0.998,
+    0.06
+   ]
+  },
+  {
+   "name": "light_tail",
+   "parent": "svetlyak",
+   "pivot": [
+    0.0,
+    0.205,
+    0.004
+   ],
+   "direction_+Y": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "fx_cutter",
+   "parent": "sv_arm_wrist",
+   "pivot": [
+    0.0175,
+    -0.101,
+    -0.088
+   ],
+   "direction_+Y": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "grip_point",
+   "parent": "sv_arm_wrist",
+   "pivot": [
+    0.0,
+    -0.086,
+    -0.088
+   ],
+   "direction_+Y": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "fx_downwash_FL",
+   "parent": "svetlyak",
+   "pivot": [
+    0.215,
+    -0.095,
+    -0.026
+   ],
+   "direction_+Y": [
+    0.0,
+    -0.0,
+    -1.0
+   ]
+  },
+  {
+   "name": "fx_downwash_FR",
+   "parent": "svetlyak",
+   "pivot": [
+    -0.215,
+    -0.095,
+    -0.026
+   ],
+   "direction_+Y": [
+    0.0,
+    -0.0,
+    -1.0
+   ]
+  },
+  {
+   "name": "fx_downwash_RL",
+   "parent": "svetlyak",
+   "pivot": [
+    0.215,
+    0.115,
+    -0.026
+   ],
+   "direction_+Y": [
+    0.0,
+    -0.0,
+    -1.0
+   ]
+  },
+  {
+   "name": "fx_downwash_RR",
+   "parent": "svetlyak",
+   "pivot": [
+    -0.215,
+    0.115,
+    -0.026
+   ],
+   "direction_+Y": [
+    0.0,
+    -0.0,
+    -1.0
+   ]
+  }
+ ]
+}

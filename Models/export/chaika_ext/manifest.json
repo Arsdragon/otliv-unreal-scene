@@ -1,0 +1,970 @@
+{
+ "id": "chaika_ext",
+ "title": "Посадочный модуль «Чайка», снаружи",
+ "units": "метры",
+ "axes": "Z вверх, нос по −Y; ВНИМАНИЕ: +X — левый борт, −X — правый (оси Blender). Суффиксы _L / _R в именах — настоящие борта. В glb оси пересчитаны экспортёром в Y вверх",
+ "origin": "центр под опорами на уровне грунта",
+ "export_pose": "мотогондолы в полётном положении (0°), трап и люк закрыты; посадочные значения — в parts[].moving",
+ "bbox_export_pose": {
+  "min": [
+   -5.042,
+   -7.076,
+   0.0
+  ],
+  "max": [
+   5.042,
+   7.0,
+   4.528
+  ]
+ },
+ "size_landed": {
+  "length": 14.0,
+  "span": 10.0,
+  "height": 4.5,
+  "belly_clearance": 1.35,
+  "water": 0.45
+ },
+ "triangles": 95260,
+ "files": {
+  "glb": "chaika_ext.glb",
+  "fbx": "chaika_ext.fbx",
+  "textures": [
+   "T_ChaikaHull_BaseColor.png",
+   "T_ChaikaHull_Normal.png",
+   "T_ChaikaHull_ORM.png",
+   "T_ChaikaParts_BaseColor.png",
+   "T_ChaikaParts_Normal.png",
+   "T_ChaikaParts_ORM.png",
+   "T_ChaikaGear_BaseColor.png",
+   "T_ChaikaGear_Normal.png",
+   "T_ChaikaGear_ORM.png"
+  ]
+ },
+ "texture_notes": "4096×4096. BaseColor — sRGB. Normal — касательное пространство, соглашение OpenGL (+Y): при ручном импорте PNG в Unreal включить Flip Green Channel. ORM — линейная: R — затенение (AO), G — шероховатость, B — металл.",
+ "material_slots": [
+  {
+   "name": "chaika_hull",
+   "textures": "T_ChaikaHull_*",
+   "note": "корпус, переплёты фонаря, кормовые обтекатели, кили"
+  },
+  {
+   "name": "chaika_parts",
+   "textures": "T_ChaikaParts_*",
+   "note": "крыло, мотогондолы, мелкие детали корпуса"
+  },
+  {
+   "name": "chaika_gear",
+   "textures": "T_ChaikaGear_*",
+   "note": "опоры с лыжами, трап, люк шлюза, ниша трапа (крупные планы у земли)"
+  },
+  {
+   "name": "nozzle",
+   "textures": "T_ChaikaParts_*",
+   "note": "сопла: отдельный слот под свечение и нагрев"
+  },
+  {
+   "name": "glass",
+   "textures": null,
+   "note": "стёкла фонаря и иллюминатор люка"
+  },
+  {
+   "name": "emissive",
+   "textures": null,
+   "note": "фары, маяки, светильники ниши трапа, бортовые огни"
+  }
+ ],
+ "notes": [
+  "Зеркальные части (L) делят участок атласа с правыми (R): развёртка отражена, касательные считать по MikkTSpace.",
+  "ext_cockpit_proxy — тёмная заглушка кабины за стёклами; скрыть, когда загружена детальная кабина chaika_cockpit.",
+  "Опоры неподвижны (посадочное положение). Вода в сцене — на высоте 0,45 м от начала координат."
+ ],
+ "parts": [
+  {
+   "name": "ext_canopy_glass",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 6936,
+   "materials": [
+    "glass"
+   ]
+  },
+  {
+   "name": "ext_canopy_frame",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 5764,
+   "materials": [
+    "chaika_hull"
+   ]
+  },
+  {
+   "name": "ext_tunnel",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 256,
+   "materials": [
+    "chaika_gear"
+   ]
+  },
+  {
+   "name": "ext_tail_base",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 94,
+   "materials": [
+    "chaika_parts"
+   ]
+  },
+  {
+   "name": "ext_hull",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 24084,
+   "materials": [
+    "chaika_hull"
+   ]
+  },
+  {
+   "name": "ext_wing_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 898,
+   "materials": [
+    "chaika_parts"
+   ]
+  },
+  {
+   "name": "ext_wing_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 898,
+   "materials": [
+    "chaika_parts"
+   ]
+  },
+  {
+   "name": "ext_fin_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 262,
+   "materials": [
+    "chaika_hull"
+   ]
+  },
+  {
+   "name": "ext_fin_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 262,
+   "materials": [
+    "chaika_hull"
+   ]
+  },
+  {
+   "name": "ext_pod_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1340,
+   "materials": [
+    "chaika_hull"
+   ]
+  },
+  {
+   "name": "ext_pod_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1340,
+   "materials": [
+    "chaika_hull"
+   ]
+  },
+  {
+   "name": "ext_gear_front_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 4516,
+   "materials": [
+    "chaika_gear"
+   ]
+  },
+  {
+   "name": "ext_gear_front_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 4516,
+   "materials": [
+    "chaika_gear"
+   ]
+  },
+  {
+   "name": "ext_gear_rear_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 4516,
+   "materials": [
+    "chaika_gear"
+   ]
+  },
+  {
+   "name": "ext_gear_rear_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 4516,
+   "materials": [
+    "chaika_gear"
+   ]
+  },
+  {
+   "name": "ext_details",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 3700,
+   "materials": [
+    "chaika_parts",
+    "nozzle",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ext_tunnel_fit",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2432,
+   "materials": [
+    "chaika_gear",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ext_cockpit_proxy",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 4742,
+   "materials": [
+    "chaika_parts"
+   ]
+  },
+  {
+   "name": "ext_wing_parts_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1180,
+   "materials": [
+    "chaika_parts",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ext_pod_parts_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1160,
+   "materials": [
+    "chaika_parts",
+    "nozzle"
+   ]
+  },
+  {
+   "name": "ext_wing_parts_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1180,
+   "materials": [
+    "chaika_parts",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ext_pod_parts_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1160,
+   "materials": [
+    "chaika_parts",
+    "nozzle"
+   ]
+  },
+  {
+   "name": "ext_nacelle_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    4.56,
+    0.0,
+    3.52
+   ],
+   "local": [
+    4.56,
+    0.0,
+    3.52
+   ],
+   "triangles": 1440,
+   "materials": [
+    "chaika_parts",
+    "nozzle"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     -95,
+     0
+    ],
+    "flight": 0,
+    "landed": -90,
+    "note": "как правая"
+   }
+  },
+  {
+   "name": "ext_nacelle_parts_L",
+   "parent": "ext_nacelle_L",
+   "pivot": [
+    4.56,
+    0.0,
+    3.52
+   ],
+   "local": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2544,
+   "materials": [
+    "chaika_parts"
+   ]
+  },
+  {
+   "name": "ext_nacelle_nozzle_L",
+   "parent": "ext_nacelle_L",
+   "pivot": [
+    4.56,
+    1.2,
+    3.52
+   ],
+   "local": [
+    0.0,
+    1.2,
+    0.0
+   ],
+   "triangles": 1196,
+   "materials": [
+    "nozzle",
+    "chaika_parts"
+   ],
+   "moving": {
+    "axis": "X,Z",
+    "range_deg": [
+     -8,
+     8
+    ],
+    "note": "как правое"
+   }
+  },
+  {
+   "name": "ext_nacelle_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    -4.56,
+    0.0,
+    3.52
+   ],
+   "local": [
+    -4.56,
+    0.0,
+    3.52
+   ],
+   "triangles": 1440,
+   "materials": [
+    "chaika_parts",
+    "nozzle"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     -95,
+     0
+    ],
+    "flight": 0,
+    "landed": -90,
+    "note": "мотогондола: 0° — полётное положение (сопло назад), −90° — посадочное (сопло вниз)"
+   }
+  },
+  {
+   "name": "ext_nacelle_parts_R",
+   "parent": "ext_nacelle_R",
+   "pivot": [
+    -4.56,
+    0.0,
+    3.52
+   ],
+   "local": [
+    -0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2544,
+   "materials": [
+    "chaika_parts"
+   ]
+  },
+  {
+   "name": "ext_nacelle_nozzle_R",
+   "parent": "ext_nacelle_R",
+   "pivot": [
+    -4.56,
+    1.2,
+    3.52
+   ],
+   "local": [
+    -0.0,
+    1.2,
+    0.0
+   ],
+   "triangles": 1196,
+   "materials": [
+    "nozzle",
+    "chaika_parts"
+   ],
+   "moving": {
+    "axis": "X,Z",
+    "range_deg": [
+     -8,
+     8
+    ],
+    "note": "сопло мотогондолы, качание в шарнире"
+   }
+  },
+  {
+   "name": "ext_bell_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    1.24,
+    6.3,
+    3.52
+   ],
+   "local": [
+    1.24,
+    6.3,
+    3.52
+   ],
+   "triangles": 1596,
+   "materials": [
+    "nozzle"
+   ],
+   "moving": {
+    "axis": "X,Z",
+    "range_deg": [
+     -6,
+     6
+    ],
+    "note": "как правое"
+   }
+  },
+  {
+   "name": "ext_bell_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    -1.24,
+    6.3,
+    3.52
+   ],
+   "local": [
+    -1.24,
+    6.3,
+    3.52
+   ],
+   "triangles": 1596,
+   "materials": [
+    "nozzle"
+   ],
+   "moving": {
+    "axis": "X,Z",
+    "range_deg": [
+     -6,
+     6
+    ],
+    "note": "сопло кормового двигателя, качание вокруг опорной точки"
+   }
+  },
+  {
+   "name": "ext_ramp",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    2.0,
+    1.4
+   ],
+   "local": [
+    0.0,
+    2.0,
+    1.4
+   ],
+   "triangles": 2556,
+   "materials": [
+    "chaika_gear"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     -24.78,
+     32.98
+    ],
+    "closed": 32.98,
+    "open": -24.78,
+    "note": "трап: петля у задней стенки шлюза; закрыт — прижат к днищу хвоста, открыт — конец на грунте"
+   }
+  },
+  {
+   "name": "ext_hatch",
+   "parent": "chaika_ext",
+   "pivot": [
+    -0.52,
+    2.085,
+    2.54
+   ],
+   "local": [
+    -0.52,
+    2.085,
+    2.54
+   ],
+   "triangles": 3400,
+   "materials": [
+    "chaika_gear",
+    "glass"
+   ],
+   "moving": {
+    "axis": "Z",
+    "range_deg": [
+     0,
+     100
+    ],
+    "closed": 0,
+    "open": 100,
+    "note": "люк шлюза: петли на правом борту (−X), открывается наружу в нишу трапа; открывать при опущенном трапе"
+   }
+  }
+ ],
+ "markers": [
+  {
+   "name": "eye_pilot",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    -5.2,
+    2.78
+   ],
+   "local": [
+    0.0,
+    -5.2,
+    2.78
+   ],
+   "purpose": "глаза пилота (для сверки с кабиной)"
+  },
+  {
+   "name": "fx_nozzle_L",
+   "parent": "ext_nacelle_nozzle_L",
+   "pivot": [
+    4.56,
+    1.62,
+    3.52
+   ],
+   "local": [
+    0.0,
+    0.42,
+    0.0
+   ],
+   "purpose": "срез сопла мотогондолы, струя вдоль +Y метки"
+  },
+  {
+   "name": "fx_intake_L",
+   "parent": "ext_nacelle_L",
+   "pivot": [
+    4.56,
+    -1.0,
+    3.52
+   ],
+   "local": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "purpose": "воздухозаборник мотогондолы"
+  },
+  {
+   "name": "fx_bell_L",
+   "parent": "ext_bell_L",
+   "pivot": [
+    1.24,
+    7.0,
+    3.52
+   ],
+   "local": [
+    0.0,
+    0.7,
+    0.0
+   ],
+   "purpose": "срез сопла кормового двигателя, струя вдоль +Y"
+  },
+  {
+   "name": "fx_splash_front_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    2.1,
+    -2.9,
+    0.0
+   ],
+   "local": [
+    2.1,
+    -2.9,
+    0.0
+   ],
+   "purpose": "центр лыжи на грунте: брызги и круги на воде"
+  },
+  {
+   "name": "fx_splash_rear_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    2.3,
+    2.9,
+    0.0
+   ],
+   "local": [
+    2.3,
+    2.9,
+    0.0
+   ],
+   "purpose": "центр лыжи на грунте: брызги и круги на воде"
+  },
+  {
+   "name": "fx_nozzle_R",
+   "parent": "ext_nacelle_nozzle_R",
+   "pivot": [
+    -4.56,
+    1.62,
+    3.52
+   ],
+   "local": [
+    0.0,
+    0.42,
+    0.0
+   ],
+   "purpose": "срез сопла мотогондолы, струя вдоль +Y метки"
+  },
+  {
+   "name": "fx_intake_R",
+   "parent": "ext_nacelle_R",
+   "pivot": [
+    -4.56,
+    -1.0,
+    3.52
+   ],
+   "local": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "purpose": "воздухозаборник мотогондолы"
+  },
+  {
+   "name": "fx_bell_R",
+   "parent": "ext_bell_R",
+   "pivot": [
+    -1.24,
+    7.0,
+    3.52
+   ],
+   "local": [
+    0.0,
+    0.7,
+    0.0
+   ],
+   "purpose": "срез сопла кормового двигателя, струя вдоль +Y"
+  },
+  {
+   "name": "fx_splash_front_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    -2.1,
+    -2.9,
+    0.0
+   ],
+   "local": [
+    -2.1,
+    -2.9,
+    0.0
+   ],
+   "purpose": "центр лыжи на грунте: брызги и круги на воде"
+  },
+  {
+   "name": "fx_splash_rear_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    -2.3,
+    2.9,
+    0.0
+   ],
+   "local": [
+    -2.3,
+    2.9,
+    0.0
+   ],
+   "purpose": "центр лыжи на грунте: брызги и круги на воде"
+  },
+  {
+   "name": "light_landing_L",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.62,
+    -5.06,
+    1.498
+   ],
+   "local": [
+    0.62,
+    -5.06,
+    1.498
+   ],
+   "purpose": "посадочная фара, луч вдоль +Y метки"
+  },
+  {
+   "name": "light_landing_R",
+   "parent": "chaika_ext",
+   "pivot": [
+    -0.62,
+    -5.06,
+    1.498
+   ],
+   "local": [
+    -0.62,
+    -5.06,
+    1.498
+   ],
+   "purpose": "посадочная фара, луч вдоль +Y метки"
+  },
+  {
+   "name": "ramp_tip",
+   "parent": "ext_ramp",
+   "pivot": [
+    0.0,
+    4.62,
+    3.1
+   ],
+   "local": [
+    0.0,
+    3.1232,
+    0.0
+   ],
+   "purpose": "конец трапа"
+  },
+  {
+   "name": "hatch_center",
+   "parent": "chaika_ext",
+   "pivot": [
+    0.0,
+    2.0,
+    2.54
+   ],
+   "local": [
+    0.0,
+    2.0,
+    2.54
+   ],
+   "purpose": "центр проёма люка шлюза"
+  }
+ ]
+}

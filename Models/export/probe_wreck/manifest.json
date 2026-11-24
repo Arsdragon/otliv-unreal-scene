@@ -1,0 +1,338 @@
+{
+ "id": "probe_wreck",
+ "title": "Обломки автоматической станции «НЕВОД-2»",
+ "units": "метры",
+ "axes": "Z вверх, нос по −Y; +X — левый борт (оси Blender). В glb оси пересчитаны экспортёром в Y вверх",
+ "origin": "главный кусок (приборный блок) на грунте; оси модели = оси сцены (Blender): волна приходит с +X, хвост обломков — к −X",
+ "export_pose": "крышка ниши на месте, накопитель в нише",
+ "bbox": {
+  "min": [
+   -17.937,
+   -4.875,
+   -0.854
+  ],
+  "max": [
+   1.35,
+   5.699,
+   1.504
+  ]
+ },
+ "triangles": 38596,
+ "files": {
+  "glb": "probe_wreck.glb",
+  "fbx": "probe_wreck.fbx",
+  "textures": [
+   "T_ProbeWreck_BaseColor.png",
+   "T_ProbeWreck_Normal.png",
+   "T_ProbeWreck_ORM.png",
+   "T_ProbeWreckMain_BaseColor.png",
+   "T_ProbeWreckMain_Normal.png",
+   "T_ProbeWreckMain_ORM.png"
+  ]
+ },
+ "texture_notes": "2048×2048. BaseColor — sRGB. Normal — OpenGL (+Y): при ручном импорте PNG в Unreal включить Flip Green Channel. ORM — линейная: R — затенение (запечено), G — шероховатость, B — металл.",
+ "material_slots": [
+  {
+   "name": "probe_wreck",
+   "textures": "T_ProbeWreck_*",
+   "note": "все куски и главный блок wr_bus, кроме грани с нишей"
+  },
+  {
+   "name": "probe_wreck_main",
+   "textures": "T_ProbeWreckMain_*",
+   "note": "НОВЫЙ слот (второй набор 2048) для крупного плана: грань с нишей (часть wr_bus), крышка wr_panel, накопитель wr_storage"
+  },
+  {
+   "name": "glass",
+   "textures": null,
+   "note": "{\"base\": [0.6, 0.7, 0.75], \"alpha\": 0.3, \"rough\": 0.05}"
+  },
+  {
+   "name": "emissive_beacon",
+   "textures": null,
+   "note": "{\"base\": [0.9, 0.5, 0.2], \"emis\": [1.0, 0.42, 0.1], \"strength\": 8.0}"
+  },
+  {
+   "name": "emissive_indicator",
+   "textures": null,
+   "note": "{\"base\": [0.2, 0.8, 0.3], \"emis\": [0.25, 1.0, 0.35], \"strength\": 4.0}"
+  }
+ ],
+ "notes": [
+  "Поставить в сцену без поворота в точку (128,6; −153,2; 0) — пеленг 50° вправо от +X, 200 м от корабля: тогда крышка накопителя смотрит на корабль, а хвост обломков тянется по ходу прошлых волн (к −X).",
+  "Все куски лежат на грунте (z = 0) и чуть утоплены; вода в сцене — 0,45 м.",
+  "«Ватерлинии» (солевые пояса) нарисованы на высотах 0,62 / 0,78 / 1,02 м и у нынешнего уровня 0,45 м; ниже воды — мокрый налёт.",
+  "Маяк (слот emissive_beacon, янтарный) — метка light_beacon; мигание задаёт сцена.",
+  "Куски: wr_bus (главный; wr_bus_inner — его скрытые днище, полка и подложки), wr_panel и wr_storage (дочерние к нему), wr_mast_top (с маяком, лежит на кромке палубы), wr_propulsion, wr_mast_low, wr_solar_A, wr_leg_B, wr_frag_2, wr_dish, wr_frag_1, wr_solar_B1, wr_solar_B2, wr_leg_C."
+ ],
+ "parts": [
+  {
+   "name": "wr_bus",
+   "parent": "probe_wreck",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0989
+   ],
+   "triangles": 13812,
+   "materials": [
+    "probe_wreck",
+    "probe_wreck_main"
+   ]
+  },
+  {
+   "name": "wr_bus_inner",
+   "parent": "wr_bus",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0989
+   ],
+   "triangles": 284,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_panel",
+   "parent": "wr_bus",
+   "pivot": [
+    -0.3084,
+    0.3674,
+    0.8369
+   ],
+   "triangles": 332,
+   "materials": [
+    "probe_wreck_main"
+   ],
+   "moving": {
+    "axis": "свободно",
+    "note": "съёмная крышка ниши 0,34 × 0,28 м на 6 винтах; наружная нормаль — ось +Y метки panel_center. Дрон срезает винты и снимает крышку"
+   }
+  },
+  {
+   "name": "wr_storage",
+   "parent": "wr_bus",
+   "pivot": [
+    -0.1808,
+    0.2154,
+    0.7235
+   ],
+   "triangles": 1856,
+   "materials": [
+    "probe_wreck_main",
+    "emissive_indicator"
+   ],
+   "moving": {
+    "axis": "сдвиг вдоль +Y метки storage_handle",
+    "range_m": [
+     0,
+     0.42
+    ],
+    "note": "накопитель Ø 0,12 × 0,35 м с ручкой и зелёным индикатором (слот emissive_indicator); выдвигается за ручку"
+   }
+  },
+  {
+   "name": "wr_mast_top",
+   "parent": "probe_wreck",
+   "pivot": [
+    -1.4923,
+    -0.304,
+    -0.02
+   ],
+   "triangles": 2348,
+   "materials": [
+    "probe_wreck",
+    "emissive_beacon"
+   ]
+  },
+  {
+   "name": "wr_propulsion",
+   "parent": "probe_wreck",
+   "pivot": [
+    -2.8,
+    -1.25,
+    0.4875
+   ],
+   "triangles": 5964,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_mast_low",
+   "parent": "probe_wreck",
+   "pivot": [
+    -3.6,
+    3.1,
+    0.1468
+   ],
+   "triangles": 920,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_solar_A",
+   "parent": "probe_wreck",
+   "pivot": [
+    -4.6,
+    -3.1,
+    0.2365
+   ],
+   "triangles": 820,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_leg_B",
+   "parent": "probe_wreck",
+   "pivot": [
+    -5.6,
+    1.9,
+    0.3045
+   ],
+   "triangles": 1364,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_frag_2",
+   "parent": "probe_wreck",
+   "pivot": [
+    -6.6,
+    4.6,
+    0.078
+   ],
+   "triangles": 1308,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_dish",
+   "parent": "probe_wreck",
+   "pivot": [
+    -8.0,
+    -0.9,
+    0.4304
+   ],
+   "triangles": 7816,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_frag_1",
+   "parent": "probe_wreck",
+   "pivot": [
+    -9.6,
+    -4.4,
+    0.186
+   ],
+   "triangles": 140,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_solar_B1",
+   "parent": "probe_wreck",
+   "pivot": [
+    -11.6,
+    2.7,
+    0.2175
+   ],
+   "triangles": 140,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_solar_B2",
+   "parent": "probe_wreck",
+   "pivot": [
+    -14.1,
+    -2.3,
+    0.0332
+   ],
+   "triangles": 128,
+   "materials": [
+    "probe_wreck"
+   ]
+  },
+  {
+   "name": "wr_leg_C",
+   "parent": "probe_wreck",
+   "pivot": [
+    -17.0,
+    1.0,
+    0.0986
+   ],
+   "triangles": 1364,
+   "materials": [
+    "probe_wreck"
+   ]
+  }
+ ],
+ "markers": [
+  {
+   "name": "panel_center",
+   "parent": "wr_panel",
+   "pivot": [
+    -0.3084,
+    0.3674,
+    0.8369
+   ],
+   "direction_+Y": [
+    -0.624,
+    0.743,
+    0.242
+   ]
+  },
+  {
+   "name": "storage_handle",
+   "parent": "wr_storage",
+   "pivot": [
+    -0.3075,
+    0.3663,
+    0.7726
+   ],
+   "direction_+Y": [
+    -0.624,
+    0.743,
+    0.242
+   ]
+  },
+  {
+   "name": "light_indicator",
+   "parent": "wr_storage",
+   "pivot": [
+    -0.2902,
+    0.3457,
+    0.802
+   ],
+   "direction_+Y": [
+    -0.624,
+    0.743,
+    0.242
+   ]
+  },
+  {
+   "name": "light_beacon",
+   "parent": "wr_mast_top",
+   "pivot": [
+    -0.5926,
+    -0.1207,
+    0.9422
+   ],
+   "direction_+Y": [
+    0.676,
+    0.138,
+    0.723
+   ]
+  }
+ ]
+}

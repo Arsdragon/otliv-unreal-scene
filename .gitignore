@@ -1,0 +1,42 @@
+# Unreal: generated / local
+Project/Saved/
+Project/Intermediate/
+Project/DerivedDataCache/
+Project/Binaries/
+Project/Build/
+*.sln
+.vs/
+
+# Packaged game: goes to GitHub Releases as a zip, not into git
+Build/Windows/
+
+# Heavy renders and working files (can be re-created from the project)
+Renders/
+Audio/**/work/
+Audio/**/check/
+Audio/**/*.wav
+!Audio/**/voice_tts*/**/*.wav
+Audio/scene1/voice_tts/
+Audio/scene1/voice_tts_pavel/
+Audio/scene1/voice_tts_piper/
+Review/_mcp/
+Review/scene1/animatic/*.mp4
+!Review/scene1/animatic/otliv_v3_sound_small.mp4
+Review/scene1/final_test/
+Review/scene1/rt_check/
+Models/shots/_tmp/
+Models/shots/
+!Models/shots/*sheet*.png
+!Models/shots/*overview*.png
+Models/src/*.blend1
+
+# Third-party downloads (Piper, its Python environment and voice models): fetched by a script, see Audio/scene1/tools/piper_get.sh
+Downloads/
+
+# Local tool settings
+.claude/
+__pycache__/
+*.pyc
+
+# Local build log (machine paths)
+Build/build_log.txt

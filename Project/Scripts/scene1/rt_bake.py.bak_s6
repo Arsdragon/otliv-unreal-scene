@@ -1,0 +1,228 @@
+# Real-time version of scene 1: bakes the Python timeline into a Level Sequence that plays by itself in a game.
+# Until now Python set every frame (s3_timeline -> s3_v2 -> s3_mood). Here Python is run once over the frames, everything
+# it changes is read back from the level and written as keys:
+#   - transforms of every actor whose own (relative) transform changes, visibility of the ones that are shown and hidden;
+#   - lights (intensity, colour), fog, sky, post-process volumes (weight, exposure, grading), focal length of the camera;
+#   - the material parameter collection MPC_Otliv (time of the scene, the wave, rings of the steps ...).
+# Still to move (stage 2): parameters of material instances that Python edited per frame (rain, drops, flash, the
+# underwater picture, ribbons of mist, puffs, the beacon) and the pictures of the cockpit screens.
+# Inside the editor, after M.install():
+#   import rt_bake; rt_bake.start(f0, f1, name='SEQ_Otliv_RT')      # a few frames per editor tick; rt_bake.progress()
+import os, json, math, unreal
+import s3_timeline as T, s1u
+
+AT = unreal.AssetToolsHelpers.get_asset_tools(); EAL = unreal.EditorAssetLibrary; ML = unreal.MaterialLibrary
+PATH = '/Game/Scene1/Seq'
+FPS = 24
+_J = {}
+
+
+def _rel(a):
+    c = a.root_component
+    l = c.get_editor_property('relative_location'); r = c.get_editor_property('relative_rotation'); s = c.get_editor_property('relative_scale3d')
+    return (l.x, l.y, l.z, r.roll, r.pitch, r.yaw, s.x, s.y, s.z)
+
+
+def _hidden(a): return bool(a.get_editor_property('hidden')) or bool(a.is_hidden_ed())
+
+
+def _props(actors):
+    """animated properties besides transforms: (key, binding kind, object, track class name, property name, path, reader)"""
+    out = []
+    for a in actors:
+        lb = a.get_actor_label()
+        for c in a.get_components_by_class(unreal.LightComponent):
+            out.append((lb + '.Intensity', 'comp', a, c, 'float', 'Intensity', 'Intensity', lambda c=c: (float(c.intensity) if c.is_visible() else 0.0,)))
+            out.append((lb + '.LightColor', 'comp', a, c, 'color', 'LightColor', 'LightColor', lambda c=c: tuple(c.get_light_color().to_tuple())))
+        for c in a.get_components_by_class(unreal.ExponentialHeightFogComponent):
+            out.append((lb + '.FogDensity', 'comp', a, c, 'float', 'FogDensity', 'FogDensity', lambda c=c: (float(c.get_editor_property('fog_density')) if c.is_visible() else 0.0,)))
+            out.append((lb + '.FogColor', 'comp', a, c, 'color', 'FogInscatteringLuminance', 'FogInscatteringLuminance', lambda c=c: tuple(c.get_editor_property('fog_inscattering_luminance').to_tuple())))
+        for c in a.get_components_by_class(unreal.SkyAtmosphereComponent):
+            out.append((lb + '.SkyLuminance', 'comp', a, c, 'color', 'SkyAndAerialPerspectiveLuminanceFactor', 'SkyAndAerialPerspectiveLuminanceFactor',
+                        lambda c=c: tuple(c.get_editor_property('sky_and_aerial_perspective_luminance_factor').to_tuple())))
+        if isinstance(a, unreal.PostProcessVolume):
+            out.append((lb + '.BlendWeight', 'actor', a, None, 'float', 'BlendWeight', 'BlendWeight', lambda a=a: (float(a.get_editor_property('blend_weight')),)))
+            out.append((lb + '.Exposure', 'actor', a, None, 'float', 'AutoExposureBias', 'Settings.AutoExposureBias', lambda a=a: (float(a.get_editor_property('settings').get_editor_property('auto_exposure_bias')),)))
+            def sat(a=a):
+                v = a.get_editor_property('settings').get_editor_property('color_saturation'); return (v.x, v.y, v.z, v.w)
+            def gain(a=a):
+                v = a.get_editor_property('settings').get_editor_property('color_gain'); return (v.x, v.y, v.z, v.w)
+            out.append((lb + '.Saturation', 'actor', a, None, 'vec4', 'ColorSaturation', 'Settings.ColorSaturation', sat))
+            out.append((lb + '.Gain', 'actor', a, None, 'vec4', 'ColorGain', 'Settings.ColorGain', gain))
+        if isinstance(a, unreal.CineCameraActor):
+            c = a.get_cine_camera_component()
+            out.append((lb + '.Focal', 'comp', a, c, 'float', 'CurrentFocalLength', 'CurrentFocalLength', lambda c=c: (float(c.get_editor_property('current_focal_length')),)))
+    return out
+
+
+def _mpc_params(mpc):
+    sc = [p.get_editor_property('parameter_name') for p in mpc.get_editor_property('scalar_parameters')]
+    ve = [p.get_editor_property('parameter_name') for p in mpc.get_editor_property('vector_parameters')]
+    return sc, ve
+
+
+def start(f0, f1, name='SEQ_Otliv_RT', per_tick=2, detect_step=6):
+    """record frames f0..f1 (24 fps) and build the sequence /Game/Scene1/Seq/<name>"""
+    actors = [a for a in s1u.EAS.get_all_level_actors() if a.get_actor_label() and a.root_component is not None]
+    mpc = EAL.load_asset('/Game/Scene1/MPC_Otliv')
+    j = {'f0': f0, 'f1': f1, 'name': name, 'actors': actors, 'mpc': mpc, 'props': _props(actors), 'phase': 'detect', 'f': f0, 'done': False,
+         'rel0': None, 'hid0': None, 'dyn': set(), 'vis': set(), 'data': {}, 'step': detect_step, 'per_tick': per_tick, 'h': None, 'msg': ''}
+    j['sc'], j['ve'] = _mpc_params(mpc)
+    _J.clear(); _J.update(j)
+    _J['h'] = unreal.register_slate_post_tick_callback(_tick)
+    return 'started: %d actors, %d property channels, %d + %d collection parameters' % (len(actors), len(j['props']), len(j['sc']), len(j['ve']))
+
+
+def _tick(dt):
+    j = _J
+    try:
+        if j['phase'] == 'detect':
+            for _ in range(j['per_tick']):
+                if j['f'] > j['f1']:
+                    j['phase'] = 'record'; j['f'] = j['f0']
+                    j['tr'] = [a for a in j['actors'] if a.get_actor_label() in j['dyn']]
+                    j['vi'] = [a for a in j['actors'] if a.get_actor_label() in j['vis']]
+                    for a in j['tr']: j['data']['T|' + a.get_actor_label()] = []
+                    for a in j['vi']: j['data']['V|' + a.get_actor_label()] = []
+                    for p in j['props']: j['data']['P|' + p[0]] = []
+                    for n in j['sc']: j['data']['S|' + str(n)] = []
+                    for n in j['ve']: j['data']['C|' + str(n)] = []
+                    return
+                T.apply_time(j['f'] / float(FPS))
+                rel = {a.get_actor_label(): _rel(a) for a in j['actors']}; hid = {a.get_actor_label(): _hidden(a) for a in j['actors']}
+                if j['rel0'] is None: j['rel0'], j['hid0'] = rel, hid
+                else:
+                    for lb, v in rel.items():
+                        if lb not in j['dyn'] and any(abs(x - y) > 1e-3 for x, y in zip(v, j['rel0'][lb])): j['dyn'].add(lb)
+                    for lb, v in hid.items():
+                        if v != j['hid0'][lb]: j['vis'].add(lb)
+                j['f'] += j['step']
+        elif j['phase'] == 'record':
+            w = s1u.world()
+            for _ in range(j['per_tick']):
+                if j['f'] > j['f1']:
+                    j['phase'] = 'write'; return
+                T.apply_time(j['f'] / float(FPS))
+                d = j['data']
+                for a in j['tr']: d['T|' + a.get_actor_label()].append(_rel(a))
+                for a in j['vi']: d['V|' + a.get_actor_label()].append(_hidden(a))
+                for p in j['props']: d['P|' + p[0]].append(tuple(float(x) for x in p[7]()))
+                for n in j['sc']: d['S|' + str(n)].append(float(ML.get_scalar_parameter_value(w, j['mpc'], n)))
+                for n in j['ve']: d['C|' + str(n)].append(tuple(ML.get_vector_parameter_value(w, j['mpc'], n).to_tuple()))
+                j['f'] += 1
+        elif j['phase'] == 'write':
+            unreal.unregister_slate_post_tick_callback(j['h'])
+            j['msg'] = _write(j); j['phase'] = 'done'; j['done'] = True
+    except Exception as e:
+        import traceback
+        unreal.unregister_slate_post_tick_callback(j['h'])
+        j['msg'] = 'ERROR in phase %s at frame %s: %s\n%s' % (j['phase'], j['f'], e, traceback.format_exc()); j['phase'] = 'failed'; j['done'] = True
+
+
+def _unwrap(vals):
+    """Euler angles without jumps of 360 degrees between neighbouring frames"""
+    out = [vals[0]]
+    for v in vals[1:]:
+        p = out[-1]; out.append(v + 360.0 * round((p - v) / 360.0))
+    return out
+
+
+def _keys(ch, f0, vals, eps=1e-6, cuts=None):
+    """writes one channel; frames where nothing changes are skipped; at a cut the previous key holds (no sweep through the cut)"""
+    n = len(vals); wrote = 0
+    for i in range(n):
+        if 0 < i < n - 1 and abs(vals[i] - vals[i - 1]) <= eps and abs(vals[i] - vals[i + 1]) <= eps: continue
+        interp = unreal.MovieSceneKeyInterpolation.CONSTANT if (cuts and (i + 1) in cuts) else unreal.MovieSceneKeyInterpolation.LINEAR
+        ch.add_key(unreal.FrameNumber(f0 + i), float(vals[i]), 0.0, unreal.MovieSceneTimeUnit.DISPLAY_RATE, interp); wrote += 1
+    return wrote
+
+
+def _write(j):
+    f0, f1, name = j['f0'], j['f1'], j['name']; full = PATH + '/' + name; d = j['data']
+    if EAL.does_asset_exist(full):
+        # never delete: the player actor of the level refers to the sequence, and the editor then stops on a modal dialog
+        # ("the asset is referenced") that nobody can answer from a script. Empty it in place instead.
+        seq = EAL.load_asset(full)
+        for b in list(seq.get_bindings()):
+            for tr in list(b.get_tracks()): b.remove_track(tr)
+            b.remove()
+        for tr in list(seq.get_tracks()): seq.remove_track(tr)
+    else:
+        seq = AT.create_asset(name, PATH, unreal.LevelSequence, unreal.LevelSequenceFactoryNew())
+    seq.set_display_rate(unreal.FrameRate(FPS, 1)); seq.set_playback_start(f0); seq.set_playback_end(f1)
+    tps = seq.get_tick_resolution(); tick = int(tps.numerator / tps.denominator / FPS)
+    binds = {}; nk = 0; notes = []
+    def bind(a):
+        lb = a.get_actor_label()
+        if lb not in binds: binds[lb] = seq.add_possessable(a)
+        return binds[lb]
+    # camera cuts: where the camera jumps, every transform key before the jump holds its value
+    cuts = set()
+    cam = d.get('T|CAM_Film')
+    if cam:
+        for i in range(1, len(cam)):
+            if math.dist(cam[i][:3], cam[i - 1][:3]) > 150.0 or max(abs((cam[i][k] - cam[i - 1][k] + 180.0) % 360.0 - 180.0) for k in (3, 4, 5)) > 12.0: cuts.add(i)
+    for a in j['tr']:
+        lb = a.get_actor_label(); rows = d['T|' + lb]
+        tr = bind(a).add_track(unreal.MovieScene3DTransformTrack); sec = tr.add_section(); sec.set_range(f0, f1 + 1)
+        ch = sec.get_all_channels()
+        own = set(i for i in range(1, len(rows)) if math.dist(rows[i][:3], rows[i - 1][:3]) > 150.0) | cuts
+        for k in range(9):
+            col = [r[k] for r in rows]
+            if 3 <= k <= 5: col = _unwrap(col)
+            nk += _keys(ch[k], f0, col, 1e-5, own)
+    for a in j['vi']:
+        lb = a.get_actor_label(); rows = d['V|' + lb]
+        tr = bind(a).add_track(unreal.MovieSceneVisibilityTrack); tr.set_property_name_and_path('bHidden', 'bHidden')
+        sec = tr.add_section(); sec.set_range(f0, f1 + 1); ch = sec.get_all_channels()[0]
+        for i, h in enumerate(rows):
+            if i == 0 or h != rows[i - 1]: ch.add_key(unreal.FrameNumber(f0 + i), not h); nk += 1
+    comp_b = {}
+    for key, kind, a, c, typ, pname, ppath, rd in j['props']:
+        rows = d['P|' + key]
+        # a value that never changes still gets its one key: the level may have been saved with something else in it
+        try:
+            b = bind(a)
+            if kind == 'comp':
+                ck = (a.get_actor_label(), c.get_name())
+                if ck not in comp_b:
+                    cb = seq.add_possessable(c); cb.set_parent(b); comp_b[ck] = cb
+                b = comp_b[ck]
+            cls = {'float': unreal.MovieSceneFloatTrack, 'color': unreal.MovieSceneColorTrack, 'vec4': unreal.MovieSceneDoubleVectorTrack}[typ]
+            tr = b.add_track(cls); tr.set_property_name_and_path(pname, ppath)
+            if typ == 'vec4': tr.set_num_channels_used(4)
+            sec = tr.add_section(); sec.set_range(f0, f1 + 1); ch = sec.get_all_channels()
+            for k in range(len(rows[0])):
+                if k < len(ch): nk += _keys(ch[k], f0, [r[k] for r in rows], 1e-7)
+        except Exception as e:
+            notes.append('%s: %s' % (key, e))
+    # the material parameter collection
+    try:
+        tr = seq.add_track(unreal.MovieSceneMaterialParameterCollectionTrack); tr.set_editor_property('mpc', j['mpc'])
+        sec = tr.add_section(); sec.set_range(f0, f1 + 1)
+        for n in j['sc']:
+            rows = d['S|' + str(n)]
+            for i, v in enumerate(rows):
+                if 0 < i < len(rows) - 1 and v == rows[i - 1] and v == rows[i + 1]: continue
+                sec.add_scalar_parameter_key(n, unreal.FrameNumber((f0 + i) * tick), float(v)); nk += 1
+        for n in j['ve']:
+            rows = d['C|' + str(n)]
+            for i, v in enumerate(rows):
+                if 0 < i < len(rows) - 1 and v == rows[i - 1] and v == rows[i + 1]: continue
+                sec.add_color_parameter_key(n, unreal.FrameNumber((f0 + i) * tick), unreal.LinearColor(*v)); nk += 1
+    except Exception as e:
+        notes.append('collection track: %s' % e)
+    # the view: the film camera for the whole range
+    try:
+        cut = seq.add_track(unreal.MovieSceneCameraCutTrack); csec = cut.add_section(); csec.set_range(f0, f1 + 1)
+        cid = unreal.MovieSceneObjectBindingID(); cid.set_editor_property('guid', bind(T.A('CAM_Film')).get_id()); csec.set_camera_binding_id(cid)
+    except Exception as e:
+        notes.append('camera cut: %s' % e)
+    EAL.save_loaded_asset(seq)
+    j['seq'] = seq
+    return 'sequence %s: frames %d-%d, %d transform tracks (%s), %d visibility tracks, %d keys, %d cuts; notes: %s' % (
+        full, f0, f1, len(j['tr']), ', '.join(a.get_actor_label() for a in j['tr'])[:600], len(j['vi']), nk, len(cuts), notes or 'none')
+
+
+def progress():
+    return {'phase': _J.get('phase'), 'frame': _J.get('f'), 'done': _J.get('done'), 'msg': _J.get('msg')}

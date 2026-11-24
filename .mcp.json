@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "unreal": {
+      "command": "python",
+      "args": ["-I", "C:\\UnrealScenes\\tools\\ue_mcp\\server.py"],
+      "env": {
+        "UE_ROOT": "C:\\Program Files\\Epic Games\\UE_5.8",
+        "UE_PROJECT_NAME": "Scenes",
+        "UE_SHOTS_DIR": "C:\\UnrealScenes\\Review\\_mcp"
+      }
+    }
+  }
+}

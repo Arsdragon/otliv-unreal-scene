@@ -1,0 +1,125 @@
+# ---------------- фонарь кабины ----------------
+# Семь крупных окон. Главное — центральное панорамное стекло wind_C: ±52° по азимуту от глаз пилота и от
+# подоконника до хребтовой балки над головой, без единого переплёта («главный экран фильма»).
+# Две стойки — вертикальные плоскости через вертикаль глаз пилота (он видит их «с торца»), все переплёты
+# вытянуты внутрь по линии взгляда, поэтому изнутри видна только их лицевая ширина (36 мм, меньше 2°).
+Y_CAP = -6.80          # впереди — глухой носовой обтекатель
+Y_AFT = -4.48          # задний шпангоут остекления (на высоте подоконника), наклонён вперёд
+AFT_RAKE = 0.30        # наклон заднего шпангоута: на каждый метр высоты — 0,3 м вперёд
+Y_CHIN_AFT = -5.45     # задний край подбородочных окон (дальше пол кабины)
+Z_SILL = 2.31          # подоконный пояс: ниже — подбородочные окна
+Z_HEAD = 3.16          # пояс над боковыми окнами (только по бортам, за стойками): выше — надбровные окна
+AZ_POST = 52.0         # азимут двух стоек от направления «вперёд», градусы
+AZ_POSTS = (AZ_POST,)
+X_KEEL = 0.20          # полуширина килевой балки между подбородочными окнами
+X_SPINE = 0.17         # полуширина хребтовой балки крыши (под ней верхний пульт)
+Y_SPINE_FRONT = EYE[1] - X_SPINE / math.tan(math.radians(AZ_POST))   # где стойки сходятся в хребет
+FRAME_HW = 0.018       # полуширина переплёта
+RIM = 0.04             # окантовка остекления
+FRAME_DEPTH = 0.075    # глубина переплёта внутрь (по линии взгляда)
+
+HULL, FRAME, GLASS = 0, 1, 2
+
+
+def _post(a, y, az=AZ_POST):
+    """Расстояние до плоскости стойки и координата вдоль неё (вперёд от глаз), a = |x|."""
+    c, s = math.cos(math.radians(az)), math.sin(math.radians(az))
+    return a * c + (y - EYE[1]) * s, a * s - (y - EYE[1]) * c
+
+
+def canopy_class(p):
+    """Класс точки обшивки: (HULL | FRAME | GLASS, имя окна или None)."""
+    x, y, z = p
+    a = abs(x)
+    side = 'R' if x > 0 else 'L'
+    if y < Y_CAP - RIM:
+        return HULL, None
+    if z < Z_SILL - FRAME_HW:                      # ниже подоконника: подбородочные окна
+        if y < Y_CAP:
+            return FRAME, None
+        if y > Y_CHIN_AFT + RIM:
+            return HULL, None
+        if y > Y_CHIN_AFT:
+            return FRAME, None
+        if a < X_KEEL:
+            return HULL, None
+        if a < X_KEEL + 0.03:
+            return FRAME, None
+        return GLASS, 'chin_' + side
+    A = y + AFT_RAKE * (z - Z_SILL)
+    if A > Y_AFT + RIM:
+        return HULL, None
+    if A > Y_AFT or y < Y_CAP or z < Z_SILL + FRAME_HW:
+        return FRAME, None
+    d, fwd = _post(a, y)
+    if abs(d) < FRAME_HW and fwd > 0:
+        return FRAME, None
+    if a < X_SPINE and y > Y_SPINE_FRONT:
+        return FRAME, None
+    if d < 0:                                      # между стойками — центральное стекло
+        return GLASS, 'wind_C'
+    if abs(z - Z_HEAD) < FRAME_HW:
+        return FRAME, None
+    return GLASS, ('brow_' if z > Z_HEAD else 'side_') + side
+
+
+def canopy_cuts(bm):
+    """Разрезать обшивку носа по всем границам остекления (ничего не удаляя)."""
+    cen = lambda f: f.calc_center_median()
+    nose = lambda f: cen(f).y < Y_AFT + 0.25
+    for z in (Z_SILL - FRAME_HW, Z_SILL + FRAME_HW):
+        cut(bm, (0, 0, z), (0, 0, 1), nose)
+    for y in (Y_CAP - RIM, Y_CAP):
+        cut(bm, (0, y, 0), (0, 1, 0), nose)
+    upper = lambda f: nose(f) and cen(f).z > Z_SILL - FRAME_HW and cen(f).y > Y_CAP - RIM
+    chin = lambda f: nose(f) and cen(f).z < Z_SILL - FRAME_HW and cen(f).y > Y_CAP - RIM
+    for y in (Y_AFT, Y_AFT + RIM):
+        cut(bm, (0, y, Z_SILL), (0, 1, AFT_RAKE), upper)
+    for y in (Y_CHIN_AFT, Y_CHIN_AFT + RIM):
+        cut(bm, (0, y, 0), (0, 1, 0), chin)
+    for x in (X_KEEL, X_KEEL + 0.03):
+        for sgn in (1, -1):
+            cut(bm, (sgn * x, 0, 0), (1, 0, 0), chin)
+    c, s = math.cos(math.radians(AZ_POST)), math.sin(math.radians(AZ_POST))
+    for sgn in (1, -1):
+        n = (sgn * c, s, 0)
+        for off in (-FRAME_HW, FRAME_HW):
+            cut(bm, (n[0] * off, EYE[1] + n[1] * off, 0), n,
+                lambda f, sgn=sgn: upper(f) and cen(f).x * sgn > -0.02 and _post(abs(cen(f).x), cen(f).y)[1] > -0.08)
+    outer = lambda f: upper(f) and _post(abs(cen(f).x), cen(f).y)[0] > 0      # за стойками (борта и крыша)
+    for sgn in (1, -1):
+        cut(bm, (sgn * X_SPINE, 0, 0), (1, 0, 0), lambda f: upper(f) and cen(f).y > Y_SPINE_FRONT - 0.1)
+    cut(bm, (0, Y_SPINE_FRONT, 0), (0, 1, 0), lambda f: upper(f) and abs(cen(f).x) < X_SPINE)
+    for z in (Z_HEAD - FRAME_HW, Z_HEAD + FRAME_HW):
+        cut(bm, (0, 0, z), (0, 0, 1), outer)
+
+
+def canopy_mark(bm):
+    """Проставить классы граням: material_index = HULL / FRAME / GLASS. Возвращает {имя окна: [грани]}."""
+    panes = {}
+    for f in bm.faces:
+        cls, pane = canopy_class(f.calc_center_median())
+        f.material_index = cls
+        if pane:
+            panes.setdefault(pane, []).append(f)
+    return panes
+
+
+def frame_solid(bm, proud=0.012, depth=FRAME_DEPTH):
+    """Превратить полосы переплётов в тела: наружу — по нормали на proud, внутрь — по линии взгляда пилота
+    на depth (боковые стенки переплётов идут вдоль луча из глаз, изнутри их не видно)."""
+    bm.normal_update()
+    E = Vector(EYE)
+    inner = {}
+    for v in list(bm.verts):
+        n = v.normal.copy()
+        inner[v] = bm.verts.new(v.co + (E - v.co).normalized() * depth)
+        v.co = v.co + n * proud
+    for f in list(bm.faces):
+        bm.faces.new([inner[v] for v in reversed(f.verts)])
+    for e in [e for e in bm.edges if e.is_boundary and e.verts[0] in inner and e.verts[1] in inner]:
+        a, b = e.verts
+        bm.faces.new((a, b, inner[b], inner[a]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+
+

@@ -1,0 +1,1818 @@
+{
+"changing": {
+"CAM_Film|focal": {
+"distinct": 40,
+"first_change": 99.25
+},
+"CAM_Film|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"CAM_Film|rot": {
+"distinct": 40,
+"first_change": 0.25
+},
+"CabinEmergency_L|PointLightComponent.color": {
+"distinct": 1,
+"first_change": 460.0
+},
+"CabinEmergency_L|PointLightComponent.intensity": {
+"distinct": 2,
+"first_change": 116.0
+},
+"CabinEmergency_L|PointLightComponent.visible": {
+"distinct": 1,
+"first_change": 116.0
+},
+"CabinEmergency_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"CabinEmergency_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"CabinEmergency_R|PointLightComponent.color": {
+"distinct": 1,
+"first_change": 460.0
+},
+"CabinEmergency_R|PointLightComponent.intensity": {
+"distinct": 2,
+"first_change": 116.0
+},
+"CabinEmergency_R|PointLightComponent.visible": {
+"distinct": 1,
+"first_change": 116.0
+},
+"CabinEmergency_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"CabinEmergency_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ChaikaCockpit|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ChaikaCockpit|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"Chaika|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"Chaika|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"CockpitFloorPlug|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"CockpitFloorPlug|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"CutterLight|PointLightComponent.intensity": {
+"distinct": 40,
+"first_change": 250.25
+},
+"CutterLight|loc": {
+"distinct": 2,
+"first_change": 236.25
+},
+"DroneLamp|PointLightComponent.intensity": {
+"distinct": 40,
+"first_change": 351.25
+},
+"DroneLamp|PointLightComponent.visible": {
+"distinct": 1,
+"first_change": 351.25
+},
+"DroneLamp|loc": {
+"distinct": 40,
+"first_change": 350.25
+},
+"FlashLight|DirectionalLightComponent.intensity": {
+"distinct": 4,
+"first_change": 411.0
+},
+"FlashLight|DirectionalLightComponent.visible": {
+"distinct": 1,
+"first_change": 411.0
+},
+"HeightFog|fog.color": {
+"distinct": 40,
+"first_change": 228.0
+},
+"HeightFog|fog.density": {
+"distinct": 40,
+"first_change": 224.25
+},
+"HeightFog|fog.visible": {
+"distinct": 1,
+"first_change": 64.0
+},
+"IndicatorLight|PointLightComponent.intensity": {
+"distinct": 1,
+"first_change": 273.0
+},
+"IndicatorLight|PointLightComponent.visible": {
+"distinct": 1,
+"first_change": 273.0
+},
+"IndicatorLight|loc": {
+"distinct": 40,
+"first_change": 273.0
+},
+"MI|MI_Mist.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|MI_MistB.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|MI_MistC.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|MI_Overcast.Color": {
+"distinct": 40,
+"first_change": 232.75
+},
+"MI|MI_Overcast.Density": {
+"distinct": 40,
+"first_change": 221.5
+},
+"MI|MI_PP_Underwater.Amounts": {
+"distinct": 40,
+"first_change": 459.75
+},
+"MI|MI_PP_Underwater.Flood": {
+"distinct": 9,
+"first_change": 459.0
+},
+"MI|MI_PP_Weather.Dust": {
+"distinct": 40,
+"first_change": 300.75
+},
+"MI|MI_PP_Weather.Flash": {
+"distinct": 12,
+"first_change": 411.0
+},
+"MI|MI_PP_Weather.Glass": {
+"distinct": 40,
+"first_change": 104.0
+},
+"MI|MI_PP_Weather.Rain": {
+"distinct": 40,
+"first_change": 216.75
+},
+"MI|MI_PP_Weather.Rainbow": {
+"distinct": 40,
+"first_change": 503.25
+},
+"MI|MI_Puff0.Fade": {
+"distinct": 40,
+"first_change": 251.0
+},
+"MI|MI_Puff1.Fade": {
+"distinct": 40,
+"first_change": 250.5
+},
+"MI|MI_Puff2.Fade": {
+"distinct": 40,
+"first_change": 251.75
+},
+"MI|MI_Spray.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|MI_WaveBoilA.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|MI_WaveBoilB.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|MI_WaveRoll.Density": {
+"distinct": 40,
+"first_change": 286.75
+},
+"MI|MI_WaveRoll.Gain": {
+"distinct": 40,
+"first_change": 218.0
+},
+"MI|MI_WaveRoll.Haze": {
+"distinct": 40,
+"first_change": 291.25
+},
+"MI|MI_WaveVeil.Density": {
+"distinct": 40,
+"first_change": 208.0
+},
+"MI|MI_WaveVeil.Gain": {
+"distinct": 40,
+"first_change": 224.0
+},
+"MI|beacon.EmissiveStrength": {
+"distinct": 1,
+"first_change": 0.25
+},
+"MI|screen_1.EmissiveTexture": {
+"distinct": 8,
+"first_change": 50.0
+},
+"MI|screen_2.EmissiveTexture": {
+"distinct": 8,
+"first_change": 50.0
+},
+"MI|screen_3.EmissiveTexture": {
+"distinct": 8,
+"first_change": 50.0
+},
+"MI|screen_4.EmissiveTexture": {
+"distinct": 8,
+"first_change": 50.0
+},
+"MI|screen_5.EmissiveTexture": {
+"distinct": 9,
+"first_change": 50.0
+},
+"MPC|FlowSpeed": {
+"distinct": 40,
+"first_change": 280.25
+},
+"MPC|Ring0": {
+"distinct": 40,
+"first_change": 100.5
+},
+"MPC|Ring1": {
+"distinct": 40,
+"first_change": 100.5
+},
+"MPC|Ring2": {
+"distinct": 40,
+"first_change": 100.5
+},
+"MPC|Ring3": {
+"distinct": 40,
+"first_change": 100.5
+},
+"MPC|Ring4": {
+"distinct": 40,
+"first_change": 121.25
+},
+"MPC|Ring5": {
+"distinct": 40,
+"first_change": 121.75
+},
+"MPC|Ring6": {
+"distinct": 40,
+"first_change": 122.25
+},
+"MPC|RippleAmp": {
+"distinct": 40,
+"first_change": 215.25
+},
+"MPC|SimTime": {
+"distinct": 40,
+"first_change": 0.25
+},
+"MPC|SunDir": {
+"distinct": 40,
+"first_change": 0.25
+},
+"MPC|WaveX": {
+"distinct": 40,
+"first_change": 0.25
+},
+"PPV_Cloud|ppv.weight": {
+"distinct": 10,
+"first_change": 76.0
+},
+"PPV_Global|ppv.exposure": {
+"distinct": 40,
+"first_change": 60.25
+},
+"PPV_Global|ppv.gain": {
+"distinct": 29,
+"first_change": 242.75
+},
+"PPV_Global|ppv.saturation": {
+"distinct": 40,
+"first_change": 226.0
+},
+"PPV_Plasma|ppv.weight": {
+"distinct": 36,
+"first_change": 52.25
+},
+"PPV_Spray|ppv.weight": {
+"distinct": 37,
+"first_change": 96.25
+},
+"PPV_Underwater|ppv.exposure": {
+"distinct": 2,
+"first_change": 500.0
+},
+"PPV_Underwater|ppv.weight": {
+"distinct": 1,
+"first_change": 459.0
+},
+"PPV_Weather|ppv.weight": {
+"distinct": 1,
+"first_change": 301.0
+},
+"PilotGloves|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"PilotGloves|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"PlanarReflection|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"PlasmaGlow|PointLightComponent.intensity": {
+"distinct": 40,
+"first_change": 52.25
+},
+"PlasmaGlow|PointLightComponent.visible": {
+"distinct": 1,
+"first_change": 52.25
+},
+"PlasmaGlow|loc": {
+"distinct": 40,
+"first_change": 52.25
+},
+"Puff0|hidden": {
+"distinct": 1,
+"first_change": 251.0
+},
+"Puff0|loc": {
+"distinct": 40,
+"first_change": 251.0
+},
+"Puff0|rot": {
+"distinct": 40,
+"first_change": 251.0
+},
+"Puff0|scale": {
+"distinct": 3,
+"first_change": 251.25
+},
+"Puff1|hidden": {
+"distinct": 1,
+"first_change": 250.5
+},
+"Puff1|loc": {
+"distinct": 40,
+"first_change": 250.5
+},
+"Puff1|rot": {
+"distinct": 40,
+"first_change": 250.5
+},
+"Puff1|scale": {
+"distinct": 3,
+"first_change": 250.5
+},
+"Puff2|hidden": {
+"distinct": 1,
+"first_change": 251.75
+},
+"Puff2|loc": {
+"distinct": 40,
+"first_change": 251.75
+},
+"Puff2|rot": {
+"distinct": 40,
+"first_change": 251.75
+},
+"Puff2|scale": {
+"distinct": 3,
+"first_change": 251.75
+},
+"ShipLight_L|SpotLightComponent.intensity": {
+"distinct": 40,
+"first_change": 350.5
+},
+"ShipLight_L|SpotLightComponent.visible": {
+"distinct": 1,
+"first_change": 350.5
+},
+"ShipLight_L|loc": {
+"distinct": 40,
+"first_change": 450.5
+},
+"ShipLight_L|rot": {
+"distinct": 40,
+"first_change": 450.75
+},
+"ShipLight_R|SpotLightComponent.intensity": {
+"distinct": 40,
+"first_change": 350.5
+},
+"ShipLight_R|SpotLightComponent.visible": {
+"distinct": 1,
+"first_change": 350.5
+},
+"ShipLight_R|loc": {
+"distinct": 40,
+"first_change": 450.5
+},
+"ShipLight_R|rot": {
+"distinct": 40,
+"first_change": 450.75
+},
+"SkyAtmosphere|atm.luminance": {
+"distinct": 40,
+"first_change": 224.5
+},
+"SkyLight|sky.capture": {
+"distinct": 1,
+"first_change": 459.75
+},
+"Spark0|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark0|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark0|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark1|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark1|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark1|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark2|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark2|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark2|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark3|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark3|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark3|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark4|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark4|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark4|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark5|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark5|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark5|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark6|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark6|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark6|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark7|hidden": {
+"distinct": 1,
+"first_change": 250.25
+},
+"Spark7|loc": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Spark7|rot": {
+"distinct": 40,
+"first_change": 250.25
+},
+"Sun|DirectionalLightComponent.color": {
+"distinct": 40,
+"first_change": 230.75
+},
+"Sun|DirectionalLightComponent.intensity": {
+"distinct": 40,
+"first_change": 217.25
+},
+"Svetlyak|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"Svetlyak|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"WaterFill|PointLightComponent.intensity": {
+"distinct": 1,
+"first_change": 459.75
+},
+"WaterFill|PointLightComponent.visible": {
+"distinct": 1,
+"first_change": 459.75
+},
+"WaterFill|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaterRoot|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-1_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-2_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_-3_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_0_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_1_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_2_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_3_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_-1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_-2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_-3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_-4|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_0|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_1|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_2|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Water_4_3|loc": {
+"distinct": 40,
+"first_change": 280.25
+},
+"Wave2|hidden": {
+"distinct": 1,
+"first_change": 470.0
+},
+"Wave2|loc": {
+"distinct": 40,
+"first_change": 470.0
+},
+"WaveBoilA|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveBoilB|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveMistB|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveMistC|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveMist|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveRoll|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveSpray|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"WaveVeil|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"Wave|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"cam_airlock|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"cam_airlock|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"cam_lens|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"cam_lens|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"chaika_cockpit|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"chaika_cockpit|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"chaika_ext|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"chaika_ext|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_airlock_equip|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_airlock_equip|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_bulkhead|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_bulkhead|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_canopy_trim|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_canopy_trim|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_console_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_console_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_console_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_console_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_detail_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_detail_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_detail_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_detail_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_detail_roof|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_detail_roof|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_door|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_door|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_faceplates_airlock|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_faceplates_airlock|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_faceplates_overhead|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_faceplates_overhead|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_faceplates|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_faceplates|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_glass|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_glass|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_hatch_proxy|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_hatch_proxy|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_liner_airlock|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_liner_airlock|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_liner_cockpit|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_liner_cockpit|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_overhead|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_overhead|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_panel|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_panel|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_pedals|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_pedals|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_placards|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_placards|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_rear_cockpit|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_rear_cockpit|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_screen_1|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_screen_1|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_screen_2|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_screen_2|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_screen_3|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_screen_3|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_screen_4|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_screen_4|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_screen_5|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_screen_5|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_screen_6|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_screen_6|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_seat|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_seat|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_stick|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_stick|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_structure_airlock|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_structure_airlock|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_structure_cockpit|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_structure_cockpit|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_suits|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_suits|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ck_throttle|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ck_throttle|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"door_center|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"door_center|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"drone_cradle|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"drone_cradle|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_bell_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_bell_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_bell_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_bell_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_canopy_frame|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_canopy_frame|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_canopy_glass|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_canopy_glass|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_cockpit_proxy|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_cockpit_proxy|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_details|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_details|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_fin_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_fin_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_fin_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_fin_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_gear_front_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_gear_front_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_gear_front_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_gear_front_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_gear_rear_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_gear_rear_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_gear_rear_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_gear_rear_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_hatch|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_hatch|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_hull|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_hull|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_nacelle_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_nacelle_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_nacelle_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_nacelle_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_nacelle_nozzle_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_nacelle_nozzle_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_nacelle_nozzle_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_nacelle_nozzle_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_nacelle_parts_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_nacelle_parts_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_nacelle_parts_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_nacelle_parts_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_pod_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_pod_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_pod_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_pod_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_pod_parts_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_pod_parts_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_pod_parts_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_pod_parts_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_ramp|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_ramp|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_tail_base|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_tail_base|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_tunnel_fit|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_tunnel_fit|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_tunnel|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_tunnel|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_wing_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_wing_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_wing_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_wing_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_wing_parts_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_wing_parts_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ext_wing_parts_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ext_wing_parts_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"eye_pilot|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"eye_pilot|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_bell_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_bell_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_bell_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_bell_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_cutter|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_cutter|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_downwash_FL|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_downwash_FL|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_downwash_FR|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_downwash_FR|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_downwash_RL|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_downwash_RL|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_downwash_RR|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_downwash_RR|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_intake_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_intake_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_intake_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_intake_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_nozzle_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_nozzle_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_nozzle_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_nozzle_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_scanner|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_scanner|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_splash_front_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_splash_front_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_splash_front_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_splash_front_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_splash_rear_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_splash_rear_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"fx_splash_rear_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"fx_splash_rear_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"glove_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"glove_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"glove_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"glove_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"grip_point|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"grip_point|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"hatch_center|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"hatch_center|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_airlock_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_airlock_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_airlock_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_airlock_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_cabin_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_cabin_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_cabin_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_cabin_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_indicator|loc": {
+"distinct": 40,
+"first_change": 278.5
+},
+"light_landing_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_landing_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_landing_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_landing_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"light_tail|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"light_tail|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"panel_center|loc": {
+"distinct": 7,
+"first_change": 272.25
+},
+"panel_center|rot": {
+"distinct": 5,
+"first_change": 272.75
+},
+"pilot_gloves|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"pilot_gloves|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"ramp_tip|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"ramp_tip|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"storage_handle|loc": {
+"distinct": 40,
+"first_change": 278.25
+},
+"sv_arm_base|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_arm_base|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_arm_fore|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_arm_fore|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_arm_upper|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_arm_upper|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_arm_wrist|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_arm_wrist|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_body|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_body|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_finger_L|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_finger_L|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_finger_R|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_finger_R|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_head|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_head|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_rotor_FL|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_rotor_FL|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_rotor_FR|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_rotor_FR|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_rotor_RL|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_rotor_RL|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"sv_rotor_RR|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"sv_rotor_RR|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"svetlyak|loc": {
+"distinct": 40,
+"first_change": 0.25
+},
+"svetlyak|rot": {
+"distinct": 40,
+"first_change": 0.5
+},
+"wr_panel|loc": {
+"distinct": 7,
+"first_change": 272.25
+},
+"wr_panel|rot": {
+"distinct": 5,
+"first_change": 272.75
+},
+"wr_storage|hidden": {
+"distinct": 1,
+"first_change": 397.0
+},
+"wr_storage|loc": {
+"distinct": 40,
+"first_change": 278.25
+}
+},
+"keys_total": 1510,
+"samples": 2201
+}

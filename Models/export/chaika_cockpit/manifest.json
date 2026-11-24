@@ -1,0 +1,701 @@
+{
+ "id": "chaika_cockpit",
+ "title": "Кабина и шлюз «Чайки» изнутри",
+ "units": "метры",
+ "axes": "Z вверх, нос по −Y; ВНИМАНИЕ: +X — левый борт (слева от пилота), −X — правый. В glb оси пересчитаны экспортёром в Y вверх",
+ "origin": "то же начало координат, что у chaika_ext: центр под опорами на уровне грунта (модели совмещаются без сдвига)",
+ "eye_pilot": [
+  0.0,
+  -5.2,
+  2.78
+ ],
+ "floor_z": 1.66,
+ "triangles": 117936,
+ "files": {
+  "glb": "chaika_cockpit.glb",
+  "fbx": "chaika_cockpit.fbx",
+  "textures": [
+   "T_CockpitFront_BaseColor.png",
+   "T_CockpitFront_Normal.png",
+   "T_CockpitFront_ORM.png",
+   "T_CockpitRear_BaseColor.png",
+   "T_CockpitRear_Normal.png",
+   "T_CockpitRear_ORM.png"
+  ],
+  "screen_placeholders": [
+   "T_Screen_1.png",
+   "T_Screen_2.png",
+   "T_Screen_3.png",
+   "T_Screen_4.png",
+   "T_Screen_5.png",
+   "T_Screen_6.png"
+  ],
+  "emissive": [
+   "T_CockpitFront_Emissive.png"
+  ]
+ },
+ "texture_notes": "4096×4096. BaseColor — sRGB. Normal — OpenGL (+Y): при ручном импорте PNG в Unreal включить Flip Green Channel. ORM — линейная: R — затенение (белое, не запекалось), G — шероховатость, B — металл. T_Screen_*.png — заглушки 1280×800 для экранов, в сцене заменяются живым интерфейсом. T_CockpitFront_Emissive.png (sRGB) — тёплая неяркая подсветка надписей верхнего пульта: Emissive слота cockpit_front.",
+ "material_slots": [
+  {
+   "name": "cockpit_front",
+   "textures": "T_CockpitFront_*",
+   "note": "место пилота: панель, консоли, кресло, отделка фонаря, обшивка кабины"
+  },
+  {
+   "name": "cockpit_rear",
+   "textures": "T_CockpitRear_*",
+   "note": "задняя часть кабины, переборка с дверью, шлюз"
+  },
+  {
+   "name": "glass",
+   "textures": null,
+   "note": "внутренние стёкла фонаря, иллюминатор двери"
+  },
+  {
+   "name": "emissive",
+   "textures": null,
+   "note": "потолочные светильники, табло верхнего пульта, индикаторы блоков"
+  },
+  {
+   "name": "screen_1",
+   "textures": "T_Screen_1.png (заглушка)",
+   "note": "экран «СИСТЕМЫ», 248 × 155 мм, соотношение 1.60, развёртка 0…1"
+  },
+  {
+   "name": "screen_2",
+   "textures": "T_Screen_2.png (заглушка)",
+   "note": "экран «НАВИГАЦИЯ», 248 × 155 мм, соотношение 1.60, развёртка 0…1"
+  },
+  {
+   "name": "screen_3",
+   "textures": "T_Screen_3.png (заглушка)",
+   "note": "экран «ПИЛОТАЖ», 300 × 188 мм, соотношение 1.60, развёртка 0…1"
+  },
+  {
+   "name": "screen_4",
+   "textures": "T_Screen_4.png (заглушка)",
+   "note": "экран «ДВИГАТЕЛИ», 248 × 155 мм, соотношение 1.60, развёртка 0…1"
+  },
+  {
+   "name": "screen_5",
+   "textures": "T_Screen_5.png (заглушка)",
+   "note": "экран «СВЯЗЬ», 248 × 155 мм, соотношение 1.60, развёртка 0…1"
+  },
+  {
+   "name": "screen_6",
+   "textures": "T_Screen_6.png (заглушка)",
+   "note": "экран «ШЛЮЗ», 336 × 210 мм, соотношение 1.60, развёртка 0…1"
+  }
+ ],
+ "screens": [
+  {
+   "name": "ck_screen_1",
+   "slot": "screen_1",
+   "width": 0.248,
+   "height": 0.155,
+   "aspect": 1.6,
+   "title": "СИСТЕМЫ"
+  },
+  {
+   "name": "ck_screen_2",
+   "slot": "screen_2",
+   "width": 0.248,
+   "height": 0.155,
+   "aspect": 1.6,
+   "title": "НАВИГАЦИЯ"
+  },
+  {
+   "name": "ck_screen_3",
+   "slot": "screen_3",
+   "width": 0.3,
+   "height": 0.1875,
+   "aspect": 1.6,
+   "title": "ПИЛОТАЖ"
+  },
+  {
+   "name": "ck_screen_4",
+   "slot": "screen_4",
+   "width": 0.248,
+   "height": 0.155,
+   "aspect": 1.6,
+   "title": "ДВИГАТЕЛИ"
+  },
+  {
+   "name": "ck_screen_5",
+   "slot": "screen_5",
+   "width": 0.248,
+   "height": 0.155,
+   "aspect": 1.6,
+   "title": "СВЯЗЬ"
+  },
+  {
+   "name": "ck_screen_6",
+   "slot": "screen_6",
+   "width": 0.336,
+   "height": 0.21,
+   "aspect": 1.6,
+   "title": "ШЛЮЗ"
+  }
+ ],
+ "notes": [
+  "Экраны 1…5 на приборной панели идут слева направо для пилота; экран 6 — пульт шлюза (правый борт, у люка).",
+  "ck_glass — внутренние стёкла (на 2 см внутрь от наружных стёкол chaika_ext); при совместной загрузке одну из пар можно скрыть.",
+  "ck_hatch_proxy — заглушка наружного люка изнутри; скрыть, когда загружена chaika_ext (там люк ext_hatch).",
+  "Переплёты фонаря построены тем же кодом, что у chaika_ext (tools/chaika_shape.py), и лежат сразу за наружными.",
+  "Ложемент дрона пуст: модель «Светляка» ставится в метку drone_cradle.",
+  "ck_detail_L / ck_detail_R / ck_detail_roof — жгуты, поручни, сетки, короб маски, фонарь, воздуховод; ck_placards — таблички."
+ ],
+ "parts": [
+  {
+   "name": "ck_glass",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 6956,
+   "materials": [
+    "glass"
+   ]
+  },
+  {
+   "name": "ck_liner_cockpit",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 6190,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_canopy_trim",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 6260,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_structure_cockpit",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 3256,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_screen_5",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "screen_5"
+   ]
+  },
+  {
+   "name": "ck_screen_4",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "screen_4"
+   ]
+  },
+  {
+   "name": "ck_screen_3",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "screen_3"
+   ]
+  },
+  {
+   "name": "ck_screen_2",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "screen_2"
+   ]
+  },
+  {
+   "name": "ck_screen_1",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "screen_1"
+   ]
+  },
+  {
+   "name": "ck_panel",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 3328,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_throttle",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.48,
+    -5.27,
+    2.2815
+   ],
+   "triangles": 196,
+   "materials": [
+    "cockpit_front"
+   ],
+   "moving": {
+    "axis": "X",
+    "range_deg": [
+     -35,
+     20
+    ],
+    "note": "РУД (левая консоль, +X): поворот вокруг поперечной оси; 0° — малый газ, вперёд — увеличение"
+   }
+  },
+  {
+   "name": "ck_console_L",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 3716,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_stick",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    -0.48,
+    -5.27,
+    2.3315
+   ],
+   "triangles": 480,
+   "materials": [
+    "cockpit_front"
+   ],
+   "moving": {
+    "axis": "X,Y",
+    "range_deg": [
+     -18,
+     18
+    ],
+    "note": "боковая ручка управления (правая консоль, −X): тангаж вокруг X, крен вокруг Y"
+   }
+  },
+  {
+   "name": "ck_console_R",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 3746,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_overhead",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 1468,
+   "materials": [
+    "cockpit_front",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ck_faceplates_overhead",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_faceplates",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 18,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_seat",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2452,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_pedals",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 444,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_detail_L",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 14560,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_detail_R",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 15100,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_detail_roof",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 11068,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_placards",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 14,
+   "materials": [
+    "cockpit_front"
+   ]
+  },
+  {
+   "name": "ck_rear_cockpit",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 8584,
+   "materials": [
+    "cockpit_rear",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ck_bulkhead",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 944,
+   "materials": [
+    "cockpit_rear"
+   ]
+  },
+  {
+   "name": "ck_door",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.405,
+    -2.3,
+    2.59
+   ],
+   "triangles": 2388,
+   "materials": [
+    "cockpit_rear",
+    "glass"
+   ],
+   "moving": {
+    "axis": "Z",
+    "range_deg": [
+     -100,
+     0
+    ],
+    "closed": 0,
+    "open": -100,
+    "note": "дверь кабина — шлюз: петли на левом борту (+X), открывается в шлюз"
+   }
+  },
+  {
+   "name": "ck_liner_airlock",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 6880,
+   "materials": [
+    "cockpit_rear"
+   ]
+  },
+  {
+   "name": "ck_structure_airlock",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 5916,
+   "materials": [
+    "cockpit_rear"
+   ]
+  },
+  {
+   "name": "ck_hatch_proxy",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 668,
+   "materials": [
+    "cockpit_rear"
+   ]
+  },
+  {
+   "name": "ck_suits",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 8844,
+   "materials": [
+    "cockpit_rear"
+   ]
+  },
+  {
+   "name": "ck_screen_6",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "screen_6"
+   ]
+  },
+  {
+   "name": "ck_airlock_equip",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 4444,
+   "materials": [
+    "cockpit_rear",
+    "emissive"
+   ]
+  },
+  {
+   "name": "ck_faceplates_airlock",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "triangles": 2,
+   "materials": [
+    "cockpit_rear"
+   ]
+  }
+ ],
+ "markers": [
+  {
+   "name": "eye_pilot",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    -5.2,
+    2.78
+   ],
+   "purpose": "глаза пилота: точка камеры в кабине"
+  },
+  {
+   "name": "cam_airlock",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    -0.3,
+    3.34
+   ],
+   "purpose": "глаза стоящего в шлюзе человека"
+  },
+  {
+   "name": "drone_cradle",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    -1.0836,
+    -1.45,
+    2.705
+   ],
+   "purpose": "центр ложемента дрона «Светляк» (правый борт шлюза)"
+  },
+  {
+   "name": "door_center",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    -2.3,
+    2.59
+   ],
+   "purpose": "центр проёма двери в шлюз"
+  },
+  {
+   "name": "hatch_center",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.0,
+    2.0,
+    2.54
+   ],
+   "purpose": "центр проёма наружного люка"
+  },
+  {
+   "name": "light_cabin_L",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.5,
+    -3.4,
+    3.4
+   ],
+   "purpose": "место светильника (в модели — светящаяся полоса слота emissive)"
+  },
+  {
+   "name": "light_cabin_R",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    -0.5,
+    -3.4,
+    3.4
+   ],
+   "purpose": "место светильника (в модели — светящаяся полоса слота emissive)"
+  },
+  {
+   "name": "light_airlock_L",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    0.45,
+    -0.2,
+    3.4
+   ],
+   "purpose": "место светильника (в модели — светящаяся полоса слота emissive)"
+  },
+  {
+   "name": "light_airlock_R",
+   "parent": "chaika_cockpit",
+   "pivot": [
+    -0.45,
+    -0.2,
+    3.4
+   ],
+   "purpose": "место светильника (в модели — светящаяся полоса слота emissive)"
+  }
+ ]
+}
