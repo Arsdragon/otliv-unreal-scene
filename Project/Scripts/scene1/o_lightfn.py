@@ -19,7 +19,7 @@ lf = g.custom(LF, [('P', wp), ('S', sv)], 'f1')
 g.out(lf, MP.MP_EMISSIVE_COLOR)
 g.done()
 sun = s1u.find('Sun').light_component
-sun.set_editor_property('light_function_material', m)
+sun.set_editor_property('light_function_material', None)      # 2026-11-27: sun behind the viewer, the crest shades nothing we see
 sun.set_editor_property('light_function_fade_distance', 1.0e9)
 sun.set_editor_property('disabled_brightness', 1.0)
 sun.set_editor_property('far_shadow_cascade_count', 0)

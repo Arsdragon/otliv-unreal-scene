@@ -1,6 +1,6 @@
 # Wave material v4.
 # Reads as water: wide soft foam streams running down the face, dark troughs, sky glint, white crest, boiling foam at the foot.
-# No glowing rim: turquoise appears only as a soft band where the water is thin AND the sun is right behind it.
+# No glowing rim: turquoise only in the thin lip of the crest (2026-11-27: the sun is behind the viewer).
 # v4: texture layers are rotated and warped (no mirror symmetry, no "scales"), a third large normal octave,
 #     streams are wider and softer, their density varies along the crest and they fade with distance (no scratches from afar).
 # Vertex colour: R = water thickness toward the sun / 1500 m, G = height fraction, B = 1 on the front face.
@@ -93,11 +93,11 @@ float band = w.fbm(float2(mm.x / max(Tr.r, 1.0), mm.y / max(Tr.g, 1.0)) + 5.0);
 float trough = lerp(1.0 - Tr.b, 1.0 + Tr.b*0.6, band);
 Nrm = normalize(float3((NA.xy*Ns.r + NB.xy*Ns.g + NC.xy*Ns.b) * (1.0 - foam*0.7), 1.0));
 Rough = lerp(lerp(0.05, 0.16, band), 0.62, foam);
-float3 L = float3(0.9848, 0.0, 0.1736);
+float3 L = float3(-0.9848, 0.0, 0.1736);
 float cosv = saturate(dot(-normalize(CV), L));
 float xt = thick / max(LT, 1.0);
 float body = xt * exp(1.0 - xt);
-float ph = pow(cosv, max(Ph, 1.0));
+float ph = smoothstep(0.80, 0.97, zf) * (0.35 + 0.65 * pow(cosv, max(Ph, 1.0)));
 Emis = Sc.rgb * Tq.rgb * (GI * body * ph * front * (1.0 - 0.6*foam));
 return lerp(DC.rgb * trough, Fc.rgb, foam);
 '''

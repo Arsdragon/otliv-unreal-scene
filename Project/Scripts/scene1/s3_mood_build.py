@@ -88,7 +88,7 @@ float curtain = saturate(d/900.0) * Rn.r * (0.25 + 0.75*gust) * smoothstep(-0.10
 outc = lerp(outc, float3(0.42, 0.46, 0.52)*(0.30 + 0.8*lum), curtain*0.35);
 outc += float3(0.70, 0.76, 0.82) * streak * 0.20 * saturate(Rn.r*3.0) * (0.5 + 0.7*lum) * (1.0 + 7.0*Fx.r*(0.25 + fglow));        // the rain in front of the flash turns to silver
 // rainbow in the water dust: 42 degrees around the point opposite to the sun; pale, only against the sky, fading upward
-float3 A = float3(-0.9848, 0.0, -0.1736);
+float3 A = float3(0.9848, 0.0, -0.1736);
 float ang = degrees(acos(clamp(dot(dir, A), -1.0, 1.0)));
 float bw = (ang - 39.6) / 3.4;
 float inb = smoothstep(0.0, 0.35, bw) * (1.0 - smoothstep(0.65, 1.0, bw));

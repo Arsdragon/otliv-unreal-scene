@@ -72,7 +72,7 @@ contr = g.scalar('BandContrast', 1.3)
 tb = g.tex(T_BASE, None, uv)
 tn = g.tex(T_NIGHT, None, uv)
 uvS = g.custom(r'''
-float3 N = normalize(Nw); float3 L = float3(0.9848, 0.0, 0.1736); float3 RN = normalize(Rn.xyz);
+float3 N = normalize(Nw); float3 L = float3(-0.9848, 0.0, 0.1736); float3 RN = normalize(Rn.xyz);
 float dl = dot(L, RN);
 float ts = -dot(N, RN) / (abs(dl) > 1e-4 ? dl : 1e-4);
 float RR = ts > 0.0 ? length(N + L*ts) : 0.0;
@@ -88,7 +88,7 @@ aS = g.tex(T_LIT, None, uvS)
 aO = g.tex(T_LIT, None, uvO)
 PLAN = r'''
 float3 N = normalize(Nw);
-float3 L = float3(0.9848, 0.0, 0.1736);
+float3 L = float3(-0.9848, 0.0, 0.1736);
 float ndl = dot(N, L);
 float lam = saturate(ndl) * smoothstep(-0.02, 0.22, ndl);
 float limb = pow(saturate(dot(N, normalize(Cv))), 0.45);
@@ -122,7 +122,7 @@ tl = g.tex(T_LIT, None, uvR)
 tk = g.tex(T_BACK, None, uvR)
 RING = r'''
 float3 v = (P - Ce.xyz) / Ra;
-float3 L = float3(0.9848, 0.0, 0.1736);
+float3 L = float3(-0.9848, 0.0, 0.1736);
 float3 RN = normalize(Rn.xyz);
 float b = dot(v, L); float cc = dot(v, v) - 1.0;
 float sh = (b < 0.0 && b*b - cc > 0.0) ? 0.0 : 1.0;

@@ -8,7 +8,7 @@ if world().get_path_name().split('.')[0] != LP:
     else:
         LES.new_level(LP, False)
 F = 'Sky'
-sun = spawn(unreal.DirectionalLight, 'Sun', rot=(-10, 180, 0), folder=F)
+sun = spawn(unreal.DirectionalLight, 'Sun', rot=(-10, 0, 0), folder=F)
 lc = sun.light_component
 lc.set_mobility(unreal.ComponentMobility.MOVABLE)
 lc.set_editor_property('atmosphere_sun_light', True)
