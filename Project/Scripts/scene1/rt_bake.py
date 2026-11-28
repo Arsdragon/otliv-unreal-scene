@@ -21,14 +21,19 @@ import s3_timeline as T, s1u
 AT = unreal.AssetToolsHelpers.get_asset_tools(); EAL = unreal.EditorAssetLibrary; ML = unreal.MaterialLibrary; MEL = unreal.MaterialEditingLibrary
 PATH = '/Game/Scene1/Seq'
 FPS = 24
-PREROLL = 48                    # frames of black before frame 0: the game loads textures and shaders of the first shot
+PREROLL = 72                    # frames of black before frame 0: the game loads textures and shaders of the first shot
+# 2026-11-28 (a friend's PC froze at 7:10-7:40 and 8:20-8:30): during the black the world is put for a moment into the
+# states of the heaviest moments - storm in the cockpit, under the wave, surfacing - so the driver builds their shaders and
+# the textures load before the scene starts; nothing of it is seen (the fade is black). (preroll frame, recorded frame)
+WARM = [(-72, 440 * 24), (-60, 462 * 24), (-48, 506 * 24), (-36, 0)]
 LIN = unreal.MovieSceneKeyInterpolation.LINEAR; CONST = unreal.MovieSceneKeyInterpolation.CONSTANT
 DR = unreal.MovieSceneTimeUnit.DISPLAY_RATE
 CAM, CAM_B = 'CAM_Film', 'CAM_Film_B'
 MI_DIR = '/Game/Scene1/Materials/'
 # (actor, material slot, instance or None = take it from the mesh, scalar parameters, vector parameters)
+GONE = ['WaveRoll']             # 2026-11-28: the dark roll cloud over the crest is removed from the scene (s8_feedback)
 MATS = [('Overcast', 0, 'MI_Overcast', ['Density'], ['Color']), ('WaveVeil', 0, 'MI_WaveVeil', ['Density', 'Gain'], []),
-        ('WaveRoll', 0, 'MI_WaveRoll', ['Density', 'Gain'], ['Haze']), ('WaveSpray', 0, 'MI_Spray', ['Gain'], []),
+('WaveSpray', 0, 'MI_Spray', ['Gain'], []),
         ('WaveMist', 0, 'MI_Mist', ['Gain'], []), ('WaveMistB', 0, 'MI_MistB', ['Gain'], []), ('WaveMistC', 0, 'MI_MistC', ['Gain'], []),
         ('WaveBoilA', 0, 'MI_WaveBoilA', ['Gain'], []), ('WaveBoilB', 0, 'MI_WaveBoilB', ['Gain'], []),
         ('Puff0', 0, 'MI_Puff0', ['Fade'], []), ('Puff1', 0, 'MI_Puff1', ['Fade'], []), ('Puff2', 0, 'MI_Puff2', ['Fade'], []),
@@ -241,6 +246,8 @@ def _pick(vals, eps, stops=(), win=24):
 def _keys(ch, f0, vals, eps, cuts, stops):
     """writes one channel; the key before a cut holds its value (no sweep through the cut)"""
     idx = _pick(vals, eps, stops)
+    if f0 == 0:
+        for pf, i in WARM: ch.add_key(unreal.FrameNumber(pf), float(vals[i]), 0.0, DR, CONST)
     for i in idx: ch.add_key(unreal.FrameNumber(f0 + i), float(vals[i]), 0.0, DR, CONST if (i + 1) in cuts else LIN)
     return len(idx)
 
@@ -254,6 +261,8 @@ def _jumps(cols, n, lim=150.0):
 def _write_gen(j):
     f0, f1, name = j['f0'], j['f1'], j['name']; full = PATH + '/' + name; d = j['data']; n = f1 - f0 + 1; notes = j['notes']
     pre = PREROLL if f0 == 0 else 0; s0 = f0 - pre
+    j['tr'] = [x for x in j['tr'] if x[0] not in GONE]; j['vi'] = [x for x in j['vi'] if x[0] not in GONE]
+    j['props'] = [x for x in j['props'] if x[2].get_actor_label() not in GONE]
     if EAL.does_asset_exist(full):
         # never delete: the player actor of the level refers to the sequence, and the editor then stops on a modal dialog
         # ("the asset is referenced") that nobody can answer from a script. Empty it in place instead.
@@ -313,6 +322,8 @@ def _write_gen(j):
         col = d['V|' + lb][0]
         tr = bind(a).add_track(unreal.MovieSceneVisibilityTrack); tr.set_property_name_and_path('bHidden', 'bHidden')
         sec = tr.add_section(); sec.set_range(s0, f1 + 1); ch = sec.get_all_channels()[0]
+        if pre:
+            for pf, i in WARM: ch.add_key(unreal.FrameNumber(pf), col[i] < 0.5)
         for i in range(n):
             if i == 0 or col[i] != col[i - 1]: ch.add_key(unreal.FrameNumber(f0 + i), col[i] < 0.5); nk += 1
     yield 'visibility'

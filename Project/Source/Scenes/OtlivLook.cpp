@@ -27,9 +27,13 @@ bool UOtlivLookModifier::ModifyCamera(float DeltaTime, FMinimalViewInfo& InOutPO
 	}
 	Yaw = FMath::FInterpTo(Yaw, TargetYaw, DeltaTime, Smoothing);
 	Pitch = FMath::FInterpTo(Pitch, TargetPitch, DeltaTime, Smoothing);
-	// in the camera's own frame: yaw around its up axis, then pitch around its new right axis
-	const FQuat Look = FQuat(FVector::UpVector, FMath::DegreesToRadians(Yaw)) * FQuat(FVector::RightVector, FMath::DegreesToRadians(-Pitch));
-	InOutPOV.Rotation = (InOutPOV.Rotation.Quaternion() * Look).Rotator();
+	// yaw around the world vertical, pitch around the turned right axis; the mouse adds no roll. Turning in the camera's
+	// own frame (as before) tilted the horizon whenever the story camera was pitched or rolled. The camera's own roll
+	// from the story (the shake when the wave hits) stays as it is.
+	FRotator R = InOutPOV.Rotation;
+	R.Yaw = FRotator::NormalizeAxis(R.Yaw + Yaw);
+	R.Pitch = FMath::Clamp(FRotator::NormalizeAxis(R.Pitch) + Pitch, -89.f, 89.f);
+	InOutPOV.Rotation = R;
 	return false;
 }
 

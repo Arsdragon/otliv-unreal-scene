@@ -75,18 +75,18 @@ for (int i=0;i<4;i++){
   float slant = Rn.g * (0.50 + 0.42*fi) * (0.6 + 0.9*gust2);
   float2 p = float2(suv.x + suv.y*slant, suv.y);
   float cx = p.x*scl; float col = floor(cx); float hr = u.h1(col + 31.0*fi);
-  float len = 0.09 + 0.20*u.h1(col*1.7 + 9.0*fi);
-  float y = p.y*scl*len - T*Rn.b*(6.0 + 3.5*fi)*(0.7 + 0.6*hr) + hr*40.0;
+  float len = 0.36 + 0.80*u.h1(col*1.7 + 9.0*fi);        // 2026-11-28: streaks 4x shorter
+  float y = p.y*scl*len - T*Rn.b*4.0*(6.0 + 3.5*fi)*(0.7 + 0.6*hr) + hr*40.0;
   float cell = floor(y); float f = frac(y);
   float dens = Rn.r * (0.16 + 0.26*fi) * gk * lerp(1.0, towave, saturate(fi*0.5));
   float on = u.h2(float2(col, cell)) > (1.0 - saturate(dens)) ? 1.0 : 0.0;
   float xin = abs(frac(cx) - 0.5);
   float gate = saturate((d - (0.8 + 6.0*fi*fi)) / (2.0 + 10.0*fi));
-  streak += on * smoothstep(0.13 - 0.02*fi, 0.0, xin) * smoothstep(0.0, 0.5, f) * smoothstep(1.0, 0.9, f) * gate * (0.55 + 0.15*fi);
+  streak += on * smoothstep(0.07 - 0.012*fi, 0.0, xin) * smoothstep(0.0, 0.5, f) * smoothstep(1.0, 0.9, f) * gate * (0.55 + 0.15*fi);
 }
 float curtain = saturate(d/900.0) * Rn.r * (0.25 + 0.75*gust) * smoothstep(-0.10, 0.10, dir.x);
 outc = lerp(outc, float3(0.42, 0.46, 0.52)*(0.30 + 0.8*lum), curtain*0.35);
-outc += float3(0.70, 0.76, 0.82) * streak * 0.20 * saturate(Rn.r*3.0) * (0.5 + 0.7*lum) * (1.0 + 7.0*Fx.r*(0.25 + fglow));        // the rain in front of the flash turns to silver
+outc += float3(0.70, 0.76, 0.82) * streak * 0.28 * saturate(Rn.r*3.0) * (0.5 + 0.7*lum) * (1.0 + 7.0*Fx.r*(0.25 + fglow));        // the rain in front of the flash turns to silver
 // rainbow in the water dust: 42 degrees around the point opposite to the sun; pale, only against the sky, fading upward
 float3 A = float3(0.9848, 0.0, -0.1736);
 float ang = degrees(acos(clamp(dot(dir, A), -1.0, 1.0)));
